@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    image: book_renter
+    tty: true
+    ports:
+      - "3000:3000"
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: book_renter_dev
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/srv
+  db:
+    image: postgres
+volumes:
+  book_renter_db:
+    external: true
