@@ -71,9 +71,43 @@ Continue to "Running NextJS".
 
 ## Running NextJS
 
-To run the development server, run on of:
+To run the development server, run one of:
 - `turbo dev`
 - `pnpm dev`
 - `npm run dev`
 
-Open up `http://localhost:3000` in your browser to see the site.
+Open up http://localhost:3000 in your browser to see the site.
+
+## Testing on Mobile
+
+The method for testing on mobile depends on your network and how you are developing.
+
+If your network is unusual (like subnets or privacy rules), then you may not be able to connect directly and may have to use a port forwarding service.
+
+### To connect directly
+
+First, find your internal IP address.
+- On Windows, this can be done via the `ipconfig` command; just find your primary adapter and the IPv4 address for it.
+- On MacOS and Linux, this can be done via the `ifconfig` command (`ifconfig | grep "inet " | grep -v 127.0.0.1` may make this easier); then just look for an IPv4 address.
+
+Alternatively, you can look in your system's internet settings for it.
+
+Next, make sure the mobile device you are testing on is connected to the same network and has data disabled.
+
+Then, simply navigate to the IP address (with the port 3000, so something like `198.168.0.1:3000`) in a browser and voila, you can now test the site on your phone.
+
+### To connect via a port-forwarding service
+
+If you are developing natively and with VSCode, you can use [VSCode's built-in port-forwarding service](https://code.visualstudio.com/docs/editor/port-forwarding).
+
+However, if you are using Docker, VSCode's built-in port-forwarding won't work, since, as of writing, it doesn't support forwarding remote connections.
+
+Instead, you can use another popular service: [ngrok](https://ngrok.com/).
+
+Sign-up on their site, then [download](https://ngrok.com/download) and install the application.
+
+Once installed, login with a token from the dashboard: `ngrok config add-authtoken <TOKEN>`.
+
+Finally, you can forward the application by running: `ngrok http 3000`.
+You will then see a line called "Forwarding", which will have the remote URL you can use to view on mobile. 
+(This URL can be quite long, so I recommend opening it on your computer and sending it to your device via the browser; most browsers have a send-to-device option when you right-click a page)
