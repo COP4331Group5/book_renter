@@ -140,3 +140,9 @@ Once installed, login with a token from the dashboard: `ngrok config add-authtok
 Finally, you can forward the application by running: `ngrok http 3000`.
 You will then see a line called "Forwarding", which will have the remote URL you can use to view on mobile.
 (This URL can be quite long, so I recommend opening it on your computer and sending it to your device via the browser; most browsers have a send-to-device option when you right-click a page)
+
+## Issues with Git
+
+When developing in a container, using GitHub desktop from the host might have issues when running the precommit checks.
+
+Instead, use the terminal in the container to commit files: `git commit -m "<YOUR MESSAGE>"`
