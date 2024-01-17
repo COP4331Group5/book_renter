@@ -1,31 +1,52 @@
-version: '3'
+version: "3"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: app
-    image: book_renter
-    tty: true
-    ports:
-      - "3000:3000"
-  dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
-    image: book_renter_dev
-    depends_on:
-      - db
-    stdin_open: true
-    tty: true
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/srv
-  db:
-    image: postgres
+    app:
+        build:
+            context: .
+            dockerfile: docker/app/Dockerfile
+            target: app
+        image: book_renter
+        tty: true
+        ports:
+            - "3000:3000"
+    dev:
+        build:
+            context: .
+            dockerfile: docker/app/Dockerfile
+            target: dev
+        image: book_renter_dev
+        depends_on:
+            - db
+        stdin_open: true
+        tty: true
+        ports:
+            - "3000:3000"
+        volumes:
+            - .:/srv
+    db:
+        build: docker/db
+        restart: always
+        user: postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: example
+            POSTGRES_DB: book_renter
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 1s
+            timeout: 5s
+            retries: 10
+        volumes:
+            - "database:/var/lib/postgresql/data"
+    db_gui:
+        image: dpage/pgadmin4
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@example.org
+            PGADMIN_DEFAULT_PASSWORD: example
+            PGADMIN_LISTEN_PORT: 4000
+        ports:
+            - "4000:4000"
 volumes:
-  book_renter_db:
-    external: true
+    database:

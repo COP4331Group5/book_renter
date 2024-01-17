@@ -2,17 +2,12 @@
     "name": "book_renter_dev",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "dev",
-    "runServices": ["dev", "db"],
+    "runServices": ["dev", "db", "db_gui"],
     "workspaceFolder": "/srv",
-    "initializeCommand": "",
+    "initializeCommand": "echo 'Started dev container...'",
     "customizations": {
         "vscode": {
-            "extensions": [
-                "ms-vscode.cpptools",
-                "ms-vscode.cpptools-themes",
-                "twxs.cmake",
-                "ms-vscode.cmake-tools"
-            ]
+            "extensions": ["dbaeumer.vscode-eslint"]
         }
     }
 }
