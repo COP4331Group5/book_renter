@@ -8,8 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "format": "prettier --write .",
-        "check": "prettier --check . && next lint",
-        "fix": "prettier --write . && next lint --fix",
+        "check": "next lint && prettier --check . ",
+        "fix": "next lint --fix && prettier --write .",
         "prepare": "husky install"
     },
     "dependencies": {

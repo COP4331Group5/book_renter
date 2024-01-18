@@ -162,7 +162,7 @@ Finally, you can forward the application by running: `ngrok http 3000`.
 You will then see a line called "Forwarding", which will have the remote URL you can use to view on mobile.
 (This URL can be quite long, so I recommend opening it on your computer and sending it to your device via the browser; most browsers have a send-to-device option when you right-click a page)
 
-## Issues with Git
+## Git Troubleshooting
 
 When developing in a container, you may run into some issues with Git.
 
@@ -181,6 +181,17 @@ You can use GitHub Desktop, GitHub CLI or another credential manager to set up t
 Make sure to rebuild the dev container after reconfiguring.
 
 If you want a GUI, VSCode provides built-in tools for source control and extensions as well.
+
+### Using Git outside of a container
+
+If you have NodeJS installed, it is possible to use Git with githooks outside of the container.
+
+Just know, it may mean calling `pnpm install` (pnpm will make this faster) when switching between the two, since Next.js uses native tooling.
+
+You may also have to install `lint-staged` on the host: `npm install -g lint-staged`.
+
+On Windows, make sure Git's bash is being used and not some other installation, like from MinGW or WSL.
+You can put `C:/Program Files/Git/bin` first in the path to ensure this.
 
 ### Terminal Commands
 

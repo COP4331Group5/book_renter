@@ -6,6 +6,6 @@ const buildEslintCommand = (filenames) =>
         .join(" --file ")}`;
 
 module.exports = {
-    "*.{js,jsx,ts,tsx}": [buildEslintCommand],
-    "**/*": ["npx prettier . --check"]
+    "**/*": ["npx prettier . --check"],
+    "*.{js,jsx,ts,tsx}": [buildEslintCommand]
 };
