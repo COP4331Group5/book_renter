@@ -8,9 +8,11 @@ There are a few ways to start developing:
 
 1. Develop in Docker
 2. Develop natively
-3. Develop in codespaces (not covered)
+3. Hybrid Development (a mix of native and Docker)
+4. Develop in codespaces (not covered)
 
 It is recommended to develop in Docker, as developing natively requires more setup.
+There is also hybrid development, which can offer the performance of native development while making it easier to set up a database instance.
 
 Optional: Depending on your editor, you can install the [Prettier plugin](https://prettier.io/docs/en/editors).
 This will make sure the entire team uses the same code style.
@@ -59,11 +61,15 @@ You can fix errors by calling one of:
 -   `pnpm fix`
 -   `npm run fix`
 
+(You can also use `fix:lint` and `fix:format` to fix an individual one)
+
 To simply check, call one of:
 
 -   `turbo check`
 -   `pnpm check`
 -   `npm run check`
+
+(You can also use `check:lint` and `check:format` to check an individual one)
 
 Continue to "Running NextJS".
 
@@ -81,7 +87,7 @@ Continue to "Running NextJS".
 First make sure you have the LTS version of NodeJS.
 You can get the installer from [NodeJS's site](https://nodejs.org).
 
-You will also need to install [PostgreSQL](https://www.postgresql.org/download/).
+You will also need to install [PostgreSQL](https://www.postgresql.org/download/) and set it up.
 
 Optional: Install [pgAdmin](https://www.pgadmin.org/) to help manage the database.
 
@@ -109,11 +115,31 @@ To lint and format, you can call one of:
 -   `pnpm fix`
 -   `npm run fix`
 
+(You can also use `fix:lint` and `fix:format` to fix an individual one)
+
 To simply check, call one of:
 
 -   `turbo check`
 -   `pnpm check`
 -   `npm run check`
+
+(You can also use `check:lint` and `check:format` to check an individual one)
+
+Continue to "Running NextJS".
+
+## Hybrid Development
+
+If, for some reason, you are having trouble with Docker's performance (E.g. the filesystem can be slower on some platforms),
+and don't want to go through the trouble of setting up a database, you can run the database in Docker and the dev server natively.
+
+To do this, install Docker and NodeJS, as well as any extra software you would like, just as described in the previous sections (except for Postgres and pgAdmin).
+
+Fork and clone the repository.
+Run `pnpm install` or `npm install` to install the dependencies.
+Then run `pnpm prepare` or `npm run prepare` to setup githooks for checking the linting and formatting.
+
+Then, run the database software by calling `docker compose up db`.
+You can also run the admin tool by calling `docker compose up db_gui`.
 
 Continue to "Running NextJS".
 

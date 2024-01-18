@@ -24,6 +24,10 @@ services:
             - "3000:3000"
         volumes:
             - .:/srv
+            - /srv/.pnpm-store
+            - /srv/node_modules
+            - /srv/.next
+            - /srv/.turbo
     db:
         build: docker/db
         restart: always

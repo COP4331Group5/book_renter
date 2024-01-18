@@ -6,10 +6,12 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "format": "prettier --write .",
         "check": "next lint && prettier --check . ",
+        "check:lint": "next lint",
+        "check:format": "prettier --check .",
         "fix": "next lint --fix && prettier --write .",
+        "fix:lint": "next lint --fix",
+        "fix:format": "prettier --write .",
         "prepare": "husky install"
     },
     "dependencies": {
