@@ -63,7 +63,7 @@ To simply check, call one of:
 
 -   `turbo check`
 -   `pnpm check`
--   `npm check`
+-   `npm run check`
 
 Continue to "Running NextJS".
 
@@ -113,7 +113,7 @@ To simply check, call one of:
 
 -   `turbo check`
 -   `pnpm check`
--   `npm check`
+-   `npm run check`
 
 Continue to "Running NextJS".
 
