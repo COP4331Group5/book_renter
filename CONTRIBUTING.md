@@ -12,7 +12,7 @@ There are a few ways to start developing:
 
 It is recommended to develop in Docker, as developing natively requires more setup.
 
-(Optional) Depending on your editor, you can install the [Prettier plugin](https://prettier.io/docs/en/editors).
+Optional: Depending on your editor, you can install the [Prettier plugin](https://prettier.io/docs/en/editors).
 This will make sure the entire team uses the same code style.
 
 ## Develop in Docker
@@ -20,15 +20,15 @@ This will make sure the entire team uses the same code style.
 ### Requirements
 
 -   [Docker](https://www.docker.com)
--   [git](https://git-scm.com/)
+-   [Git](https://git-scm.com/)
 -   [VSCode](https://code.visualstudio.com/) (optional but recommended; used for dev containers)
--   [GitHub Desktop](https://desktop.github.com/) (optional but recommended; excellent GUI for git)
+-   [GitHub Desktop](https://desktop.github.com/) (optional but recommended; excellent GUI for Git)
 
 First, head over to [Docker's site](https://www.docker.com/get-started/) and download the installer for your system.
 Proceed to run it and follow the instructions.
 Depending on your system, you may need to install additional software or change system settings to allow Docker to run.
 
-Optional: Install VSCode and GitHub Desktop
+Optional: Install VSCode and/or GitHub Desktop
 
 Fork the repository and clone it to your machine.
 This can be done via the `git clone` command or GitHub desktop (Click `Open with GitHub Desktop` from the `Code` dropdown on the GitHub page)
@@ -40,15 +40,30 @@ This will allow you to easily start a container in VSCode.
 Just open the command palette (`F1`/`Ctrl+Shift+P`) and run `Reopen in Container`.
 (You can also click the `><` button in the bottom left corner to see this option)
 
-For other editors, run `docker compose up dev` to run the development container.
+If your editor doesn't support the dev container standard, you can use the [dev container CLI](https://github.com/devcontainers/cli).
+Otherwise, you can run `docker compose up dev` to run the dev environment.
+Note that if you run it directly from Docker, you will have to configure Git from inside the container in order for it to work properly.
 
-Inside the container, run one of:
+Inside the container, run `pnpm install`.
 
--   `turbo prepare`
--   `pnpm prepare`
--   `npm run prepare`
+Optional: Run `pnpm prepare` to setup githooks for checking the linting and formatting.
+When you try to make a commit, it will first check if the code is properly linted and formatted, and if not, return an error.
+This will make using Git on the host machine not work properly without NodeJS installed natively, so you will need to use Git from inside the dev container.
+You can still use GitHub Desktop to check the status of commits.
 
-This will setup githooks for linting.
+If you do not setup githooks, you won't get reminders to lint and format, and will need to remember to do so before committing.
+
+You can fix errors by calling one of:
+
+-   `turbo fix`
+-   `pnpm fix`
+-   `npm run fix`
+
+To simply check, call one of:
+
+-   `turbo check`
+-   `pnpm check`
+-   `npm check`
 
 Continue to "Running NextJS".
 
@@ -56,12 +71,12 @@ Continue to "Running NextJS".
 
 ### Requirements
 
--   [git](https://git-scm.com/)
+-   [Git](https://git-scm.com/)
 -   [PostgreSQL](https://www.postgresql.org/)
 -   [NodeJS v20 LTS](https://nodejs.org)
 -   [pnpm](https://pnpm.io/) (optional but recommended; makes NodeJS projects take up less space)
 -   [turborepo](https://turbo.build/repo) (optional for now; used for ordering build scripts and caching)
--   [GitHub Desktop](https://desktop.github.com/) (optional but recommended; excellent GUI for git)
+-   [GitHub Desktop](https://desktop.github.com/) (optional but recommended; excellent GUI for Git)
 
 First make sure you have the LTS version of NodeJS.
 You can get the installer from [NodeJS's site](https://nodejs.org).
@@ -86,13 +101,19 @@ This can be done via the `git clone` command or GitHub desktop (Click `Open with
 
 Run `pnpm install` or `npm install` to install the dependencies.
 
-Run one of:
+Then run `pnpm prepare` or `npm run prepare` to setup githooks for checking the linting and formatting.
 
--   `turbo prepare`
--   `pnpm prepare`
--   `npm run prepare`
+To lint and format, you can call one of:
 
-This will setup githooks for linting.
+-   `turbo fix`
+-   `pnpm fix`
+-   `npm run fix`
+
+To simply check, call one of:
+
+-   `turbo check`
+-   `pnpm check`
+-   `npm check`
 
 Continue to "Running NextJS".
 
@@ -143,6 +164,32 @@ You will then see a line called "Forwarding", which will have the remote URL you
 
 ## Issues with Git
 
-When developing in a container, using GitHub desktop from the host might have issues when running the precommit checks.
+When developing in a container, you may run into some issues with Git.
 
-Instead, use the terminal in the container to commit files: `git commit -m "<YOUR MESSAGE>"`
+Git won't work from the host with githooks enabled unless you set up NodeJS on the host machine.
+Instead, you will need to use commands or VSCode's GUI to interact with Git.
+
+If you get an error when trying to commit about missing a username and/or email, it means you need to set those on your host.
+This can be done by installing GitHub Desktop or using the following commands:
+
+-   `git config --global user.name <USERNAME>`
+-   `git config --global user.email <EMAIL>` (If you want a private email, check for the generated email under your GitHub account)
+
+If you get an error about missing credentials, it means you weren't signed in on the host.
+You can use GitHub Desktop, GitHub CLI or another credential manager to set up the credentials.
+
+Make sure to rebuild the dev container after reconfiguring.
+
+If you want a GUI, VSCode provides built-in tools for source control and extensions as well.
+
+### Terminal Commands
+
+-   Stage all changes: `git add .`
+-   Commit all changes: `git commit -m "<YOUR MESSAGE>"`
+-   Push commits: `git push`
+
+### Issues with githooks
+
+On Windows the executable bit of scripts in `.husky/` won't get set, causing issues when running on Linux.
+If Git doesn't execute the githook, it's likely because of that.
+This can be fixed by running `chmod ug+x .husky/*`.
