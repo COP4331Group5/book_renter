@@ -127,6 +127,15 @@ To run the development server, run one of:
 
 Open up http://localhost:3000 in your browser to see the site.
 
+## Managing Postgres
+
+When you run the dev container, an instance of pgAdmin, a management tool for Postgres, is also started.
+
+You can go to http://localhost:4000 in your browser to see the management dashboard.
+
+To sign in, you can use the credentials `admin@example.org` (username) and `example` (password).
+This may be changed in the future in favor of an `.env` file.
+
 ## Testing on Mobile
 
 The method for testing on mobile depends on your network and how you are developing.
