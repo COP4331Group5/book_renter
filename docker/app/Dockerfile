@@ -45,7 +45,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && npm --version \
   # install pnpm
   && corepack enable \
-  && corepack prepare pnpm@latest --activate \
+  && corepack prepare pnpm@8.14.3 --activate \
   && pnpm --version \
   # install turbo
   && pnpm install turbo --global

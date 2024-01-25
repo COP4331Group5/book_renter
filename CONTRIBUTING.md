@@ -9,13 +9,10 @@ There are a few ways to start developing:
 1. Develop in Docker
 2. Develop natively
 3. Hybrid Development (a mix of native and Docker)
-4. Develop in codespaces (not covered)
+4. Develop in a Codespace
 
 It is recommended to develop in Docker, as developing natively requires more setup.
 There is also hybrid development, which can offer the performance of native development while making it easier to set up a database instance.
-
-Optional: Depending on your editor, you can install the [Prettier plugin](https://prettier.io/docs/en/editors).
-This will make sure the entire team uses the same code style.
 
 ## Develop in Docker
 
@@ -30,14 +27,14 @@ First, head over to [Docker's site](https://www.docker.com/get-started/) and dow
 Proceed to run it and follow the instructions.
 Depending on your system, you may need to install additional software or change system settings to allow Docker to run.
 
-Optional: Install VSCode and/or GitHub Desktop
+_Optional:_ Install VSCode and/or GitHub Desktop
 
 Fork the repository and clone it to your machine.
 This can be done via the `git clone` command or GitHub desktop (Click `Open with GitHub Desktop` from the `Code` dropdown on the GitHub page)
 
 Open the project in the IDE of your choice.
 
-If using VSCode, then install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
+If using VSCode, then install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension if not already installed.
 This will allow you to easily start a container in VSCode.
 Just open the command palette (`F1`/`Ctrl+Shift+P`) and run `Reopen in Container`.
 (You can also click the `><` button in the bottom left corner to see this option)
@@ -46,9 +43,7 @@ If your editor doesn't support the dev container standard, you can use the [dev 
 Otherwise, you can run `docker compose up dev` to run the dev environment.
 Note that if you run it directly from Docker, you will have to configure Git from inside the container in order for it to work properly.
 
-Inside the container, run `pnpm install`.
-
-Optional: Run `pnpm prepare` to setup githooks for checking the linting and formatting.
+_Optional:_ Run `pnpm prepare` to setup githooks for checking the linting and formatting.
 When you try to make a commit, it will first check if the code is properly linted and formatted, and if not, return an error.
 This will make using Git on the host machine not work properly without NodeJS installed natively, so you will need to use Git from inside the dev container.
 You can still use GitHub Desktop to check the status of commits.
@@ -89,23 +84,25 @@ You can get the installer from [NodeJS's site](https://nodejs.org).
 
 You will also need to install [PostgreSQL](https://www.postgresql.org/download/) and set it up.
 
-Optional: Install [pgAdmin](https://www.pgadmin.org/) to help manage the database.
+_Optional:_ Install [pgAdmin](https://www.pgadmin.org/) to help manage the database.
 
-Optional: If you want to have multiple versions of NodeJS, then you want a NodeJS version manager.
+_Optional:_ If you want to have multiple versions of NodeJS, then you want a NodeJS version manager.
 NodeJS doesn't provide this, so you would need to find an unofficial one (NVM is a popular option).
 
-Optional: Install pnpm to share dependencies across projects.
-For this single project, it isn't necessary, but if you ever decide to make more projects, this will help save disk space.
-Just run `corepack enable` and `corepack prepare pnpm@latest --activate` to enable pnpm on your system.
+_Optional:_ Depending on your editor, you can install the [Prettier plugin](https://prettier.io/docs/en/editors).
+This will make sure the entire team uses the same code style.
 
-Optional: Install turborepo to cache tasks.
+Ensure pnpm is installed to share dependencies across projects.
+Just run `corepack enable` to enable pnpm on your system (the project specifies the version to use, so there is no need to prepare it).
+
+_Optional:_ Install turborepo to cache tasks.
 As of writing, turborepo isn't being used, but when the project grows, this will make development faster.
-Just run `npm install turbo --global` (replace with `pnpm` if installed).
+Just run `pnpm install turbo --global`.
 
 Fork the repository and clone it to your machine.
 This can be done via the `git clone` command or GitHub desktop (Click `Open with GitHub Desktop` from the `Code` dropdown on the GitHub page)
 
-Run `pnpm install` or `npm install` to install the dependencies.
+Run `pnpm install` to install the dependencies.
 
 Then run `pnpm prepare` or `npm run prepare` to setup githooks for checking the linting and formatting.
 
@@ -135,11 +132,21 @@ and don't want to go through the trouble of setting up a database, you can run t
 To do this, install Docker and NodeJS, as well as any extra software you would like, just as described in the previous sections (except for Postgres and pgAdmin).
 
 Fork and clone the repository.
-Run `pnpm install` or `npm install` to install the dependencies.
+Run `pnpm install` to install the dependencies.
 Then run `pnpm prepare` or `npm run prepare` to setup githooks for checking the linting and formatting.
 
 Then, run the database software by calling `docker compose up db`.
 You can also run the admin tool by calling `docker compose up db_gui`.
+
+Continue to "Running NextJS".
+
+## Develop in Codespace
+
+To run in a Codespace, simply open it (on GitHub, click `Code > Codespaces > Create Codespace`).
+
+When you start the dev server, the Codespace will automatically forward port 3000.
+If it doesn't, you can go to the port tab to manually forward port 3000 and open it up in your browser.
+(You can also forward port 4000 here to access pgAdmin)
 
 Continue to "Running NextJS".
 
@@ -223,7 +230,7 @@ If you have NodeJS installed, it is possible to use Git with githooks outside of
 
 Just know, it may mean calling `pnpm install` (pnpm will make this faster) when switching between the two, since Next.js uses native tooling.
 
-You may also have to install `lint-staged` on the host: `npm install -g lint-staged`.
+You may also have to install `lint-staged` on the host: `pnpm install -g lint-staged`.
 
 On Windows, make sure Git's bash is being used and not some other installation, like from MinGW or WSL.
 You can put `C:/Program Files/Git/bin` first in the path to ensure this.
