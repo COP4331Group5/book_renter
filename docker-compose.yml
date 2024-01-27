@@ -29,7 +29,9 @@ services:
       - /srv/.next
       - /srv/.turbo
   db:
-    build: docker/db
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
     restart: always
     user: postgres
     environment:
@@ -41,16 +43,41 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
+    networks:
+      db_net:
+        ipv4_address: 172.20.0.2
+    ports:
+      - "5432:5432"
     volumes:
       - "database:/var/lib/postgresql/data"
+  fs:
+    build:
+      context: .
+      dockerfile: docker/fs/Dockerfile
+    restart: always
+    ports:
+      - "2000:2000"
+    volumes:
+      - "fileserver:/srv"
   db_gui:
-    image: dpage/pgadmin4
+    build: docker/db_gui
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.org
       PGADMIN_DEFAULT_PASSWORD: example
       PGADMIN_LISTEN_PORT: 4000
+      PGADMIN_SERVER_JSON_FILE: "/etc/pgadmin/servers.json"
     ports:
       - "4000:4000"
+    networks:
+      - default
+      - db_net
 volumes:
   database:
+  fileserver:
+networks:
+  db_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16

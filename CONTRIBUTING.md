@@ -41,7 +41,7 @@ Just open the command palette (`F1`/`Ctrl+Shift+P`) and run `Reopen in Container
 
 If your editor doesn't support the dev container standard, you can use the [dev container CLI](https://github.com/devcontainers/cli).
 Otherwise, you can run `docker compose up dev` to run the dev environment.
-Note that if you run it directly from Docker, you will have to configure Git from inside the container in order for it to work properly.
+Note that if you run it directly from Docker, you will have to configure Git from inside the container in order for it to work properly (setup username + email and run `git lfs install`).
 
 _Optional:_ Run `pnpm prepare` to setup githooks for checking the linting and formatting.
 When you try to make a commit, it will first check if the code is properly linted and formatted, and if not, return an error.
@@ -66,6 +66,8 @@ To simply check, call one of:
 
 (You can also use `check:lint` and `check:format` to check an individual one)
 
+(If you need to recreate the database and file server, say for editing the demo data or schema, you can run `./clean_docker.sh` and rebuild the dev container)
+
 Continue to "Running NextJS".
 
 ## Develop natively
@@ -73,11 +75,15 @@ Continue to "Running NextJS".
 ### Requirements
 
 -   [Git](https://git-scm.com/)
+-   [Git LFS](https://git-lfs.com/)
 -   [PostgreSQL](https://www.postgresql.org/)
 -   [NodeJS v20 LTS](https://nodejs.org)
 -   [pnpm](https://pnpm.io/) (optional but recommended; makes NodeJS projects take up less space)
 -   [turborepo](https://turbo.build/repo) (optional for now; used for ordering build scripts and caching)
 -   [GitHub Desktop](https://desktop.github.com/) (optional but recommended; excellent GUI for Git)
+
+Before setting up the project, make sure you have Git and Git LFS installed.
+After installing Git LFS, make sure it is setup for your user account by running `git lfs install`.
 
 First make sure you have the LTS version of NodeJS.
 You can get the installer from [NodeJS's site](https://nodejs.org).

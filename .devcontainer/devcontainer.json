@@ -2,9 +2,10 @@
     "name": "book_renter_dev",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "dev",
-    "runServices": ["dev", "db", "db_gui"],
+    "runServices": ["dev", "db", "db_gui", "fs"],
     "workspaceFolder": "/srv",
     "initializeCommand": "echo 'Started dev container...'",
+    "postStartCommand": "git lfs install",
     "customizations": {
         "vscode": {
             "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
