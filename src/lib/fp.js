@@ -1,8 +1,8 @@
-export function is_nothing(x) {
+export function isNothing(x) {
     return x === null || x === undefined;
 }
 
-export function is_something(x) {
+export function isSomething(x) {
     return x !== null && x !== undefined;
 }
 
@@ -31,11 +31,11 @@ export class Maybe {
         this.#value = x ?? null;
     }
 
-    get is_none() {
+    get isNone() {
         return this.#value === null;
     }
 
-    get is_some() {
+    get isSome() {
         return this.#value !== null;
     }
 
@@ -46,11 +46,20 @@ export class Maybe {
      * @returns {Maybe<A>}
      */
     map(fn) {
-        return this.is_none ? None : Maybe.some(fn(this.#value));
+        return this.isNone ? None : Maybe.some(fn(this.#value));
+    }
+
+    /**
+     * Filters the container value.
+     * @param {(x: T) => boolean} fn
+     * @returns {Maybe<T>}
+     */
+    filter(fn) {
+        return this.isNone ? None : fn(this.#value) ? Some(this.#value) : None;
     }
 
     unwrap() {
-        if (this.is_none) {
+        if (this.isNone) {
             throw new Error(`${typeof this} is 'None'`);
         }
         return this.#value;
@@ -67,7 +76,7 @@ export class Maybe {
      * @returns {A}
      */
     match(branches) {
-        if (this.is_some) {
+        if (this.isSome) {
             return branches.Some(this.#value);
         } else {
             return branches.None();
@@ -75,7 +84,7 @@ export class Maybe {
     }
 
     toString() {
-        return this.is_none ? "None" : `Some(${this.#value})`;
+        return this.isNone ? "None" : `Some(${this.#value})`;
     }
 }
 
@@ -119,11 +128,11 @@ export class Result {
         this.#err = error;
     }
 
-    get is_ok() {
+    get isOk() {
         return !this.#err;
     }
 
-    get is_err() {
+    get isErr() {
         return this.#err;
     }
 
@@ -134,7 +143,7 @@ export class Result {
      * @returns {Result<A, E>}
      */
     map(fn) {
-        return this.is_err
+        return this.isErr
             ? this
             : Result.ok(
                   fn(
@@ -150,8 +159,8 @@ export class Result {
      * @param {(x: E) => A} fn
      * @returns {Result<T, A>}
      */
-    map_err(fn) {
-        return this.is_ok
+    mapErr(fn) {
+        return this.isOk
             ? this
             : Result.err(
                   fn(
@@ -165,7 +174,7 @@ export class Result {
      * @returns {T}
      */
     unwrap() {
-        if (this.is_err) {
+        if (this.isErr) {
             throw new Error(`Value is an error!`);
         }
         return this.#value;
@@ -174,8 +183,8 @@ export class Result {
     /**
      * @returns {E}
      */
-    unwrap_err() {
-        if (this.is_ok) {
+    unwrapErr() {
+        if (this.isOk) {
             throw new Error(`Value is ok!`);
         }
         return this.#value;
@@ -184,8 +193,30 @@ export class Result {
     /**
      * @returns {T | E}
      */
-    unwrap_unchecked() {
+    unwrapUnchecked() {
         return this.#value;
+    }
+
+    /**
+     * Returns an `Maybe<T>`.
+     * @returns {Maybe<T>}
+     */
+    ok() {
+        return this.match({
+            Ok: (t) => Some(t),
+            Err: (_) => None
+        });
+    }
+
+    /**
+     * Returns an `Maybe<E>`.
+     * @returns {Maybe<E>}
+     */
+    err() {
+        return this.match({
+            Ok: (_) => None,
+            Err: (e) => Some(e)
+        });
     }
 
     /**
@@ -199,7 +230,7 @@ export class Result {
      * @returns {A}
      */
     match(branches) {
-        if (this.is_ok) {
+        if (this.isOk) {
             return branches.Ok(this.#value);
         } else {
             return branches.Err(this.#value);
@@ -211,7 +242,7 @@ export class Result {
      * @param {(x) => Result<A, E>} fn
      * @returns {Result<A, E>}
      */
-    and_then(fn) {
+    andThen(fn) {
         return this.match({
             Ok: (t) => fn(t),
             Err: (e) => Err(e)
@@ -223,11 +254,11 @@ export class Result {
      * @returns {Result<T, E>}
      */
     flatten() {
-        return this.and_then((x) => x);
+        return this.andThen((x) => x);
     }
 
     toString() {
-        return this.is_err ? `Err(${this.#value})` : `Ok(${this.#value})`;
+        return this.isErr ? `Err(${this.#value})` : `Ok(${this.#value})`;
     }
 }
 
@@ -235,7 +266,7 @@ export const Ok = Result.ok;
 export const Err = Result.err;
 
 /**
- * Runs a promise and returns the result.
+ * Tries to resolve a promise and returns the result.
  * @template T
  * @param {Promise<T>} promise
  * @returns {Promise<Result<T, Error>>}

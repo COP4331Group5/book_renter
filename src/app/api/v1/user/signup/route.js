@@ -1,7 +1,8 @@
-import { ajv, email_regex } from "@/lib/validate";
+import { ajv, emailRegex } from "@/lib/validate";
 import { Ok, Err, tryPromise } from "@/lib/fp";
 import sql from "@/lib/sql";
 import argon2 from "argon2";
+import { createSession } from "../session";
 
 /** @type {(x: any) => boolean} */
 const validate = ajv.compile({
@@ -34,192 +35,159 @@ const validate = ajv.compile({
  */
 export async function POST(request) {
     let json = await tryPromise(request.json());
-    return await json.match({
-        Ok: async (form) => {
-            // Validate JSON form (shape, email, size).
-            if (!validate(form)) {
-                return Response.json(
-                    {
-                        error: "ValidationError",
-                        message: validate.errors[0].message
-                    },
-                    { status: 400 }
-                );
-            }
 
-            if (!email_regex.test(form.email)) {
-                return Response.json(
-                    {
-                        error: "InvalidEmail",
-                        message: "email is invalid"
-                    },
-                    { status: 400 }
-                );
-            }
+    if (json.isErr) {
+        console.log(json.unwrapErr());
+        return Response.json(
+            {
+                error: "InvalidJSON",
+                message: "invalid JSON"
+            },
+            { status: 400 }
+        );
+    }
 
-            if (form.display.length > 80) {
-                return Response.json(
-                    {
-                        error: "DisplayTooLong",
-                        message: "display name exceeds 80 characters"
-                    },
-                    { status: 400 }
-                );
-            }
+    let form = json.unwrap();
 
-            if (form.password.length < 8) {
-                return Response.json(
-                    {
-                        error: "PasswordTooShort",
-                        message: "password is less than 8 characters"
-                    },
-                    { status: 400 }
-                );
-            }
+    // Validate JSON form (shape, email, size).
+    if (!validate(form)) {
+        return Response.json(
+            {
+                error: "ValidationError",
+                message: validate.errors[0].message
+            },
+            { status: 400 }
+        );
+    }
 
-            // Check to see if there is already a user with that email.
-            let check_result = await tryPromise(
-                sql`SELECT COUNT(1) FROM users WHERE email = ${form.email}`
-            );
+    if (!emailRegex.test(form.email)) {
+        return Response.json(
+            {
+                error: "InvalidEmail",
+                message: "email is invalid"
+            },
+            { status: 400 }
+        );
+    }
 
-            if (check_result.is_err) {
-                return Response.json(
-                    {
-                        error: "CheckFailed",
-                        message: "was not able to check if a user exists"
-                    },
-                    { status: 500 }
-                );
-            }
+    if (form.display.length > 80) {
+        return Response.json(
+            {
+                error: "DisplayTooLong",
+                message: "display name exceeds 80 characters"
+            },
+            { status: 400 }
+        );
+    }
 
-            if (check_result.unwrap()[0].count == 1) {
-                return Response.json(
-                    {
-                        error: "UserAlreadyExists",
-                        message: "a user with the provided email already exists"
-                    },
-                    { status: 409 }
-                );
-            }
+    if (form.password.length < 8) {
+        return Response.json(
+            {
+                error: "PasswordTooShort",
+                message: "password is less than 8 characters"
+            },
+            { status: 400 }
+        );
+    }
 
-            // Generate the hash (argon2 automatically generates salt).
-            let passhash = await tryPromise(argon2.hash(form.password));
+    // Check to see if there is already a user with that email.
+    let checkResult = await tryPromise(
+        sql`SELECT COUNT(1) FROM users WHERE email = ${form.email}`
+    );
 
-            if (passhash.is_err) {
-                console.log(passhash.unwrap_err());
-                return Response.json(
-                    {
-                        error: "PasshashFailed",
-                        message: "could not hash password"
-                    },
-                    { status: 500 }
-                );
-            }
+    if (checkResult.isErr) {
+        return Response.json(
+            {
+                error: "CheckFailed",
+                message: "was not able to check if a user exists"
+            },
+            { status: 500 }
+        );
+    }
 
-            // TODO: send confirmation email to make sure the email exists.
+    if (checkResult.unwrap()[0].count == 1) {
+        return Response.json(
+            {
+                error: "UserAlreadyExists",
+                message: "a user with the provided email already exists"
+            },
+            { status: 409 }
+        );
+    }
 
-            const session_result = (
-                await tryPromise(
-                    sql.begin(async (sql) => {
-                        let user = {
-                            email: form.email,
-                            display: form.display,
-                            passhash: passhash.unwrap()
-                        };
+    // Generate the hash (argon2 automatically generates salt).
+    let passhash = await tryPromise(argon2.hash(form.password));
 
-                        let create_user_result = await tryPromise(
-                            sql`INSERT INTO users ${sql(
-                                user,
-                                "email",
-                                "display",
-                                "passhash"
-                            )} RETURNING id`
-                        );
+    if (passhash.isErr) {
+        console.log(passhash.unwrapErr());
+        return Response.json(
+            {
+                error: "PasshashFailed",
+                message: "could not hash password"
+            },
+            { status: 500 }
+        );
+    }
 
-                        if (create_user_result.is_err) {
-                            console.log(create_user_result.unwrap_err());
-                            return Err(
-                                Response.json(
-                                    {
-                                        error: "UserCreationFailed",
-                                        message: "could not create user"
-                                    },
-                                    { status: 500 }
-                                )
-                            );
-                        }
+    // TODO: send confirmation email to make sure the email exists.
 
-                        let session = {
-                            user_id: create_user_result.unwrap()[0].id
-                        };
+    let user = {
+        email: form.email,
+        display: form.display,
+        passhash: passhash.unwrap()
+    };
 
-                        let create_session_result = await tryPromise(
-                            sql`INSERT INTO sessions ${sql(
-                                session,
-                                "user_id"
-                            )} RETURNING id`
-                        );
+    let createUserResult = (
+        await tryPromise(
+            sql`INSERT INTO users ${sql(
+                user,
+                "email",
+                "display",
+                "passhash"
+            )} RETURNING id`
+        )
+    ).map((rows) => rows[0].id);
 
-                        if (create_session_result.is_err) {
-                            console.log(create_session_result.unwrap_err());
-                            return Err(
-                                Response.json(
-                                    {
-                                        error: "SessionCreationFailed",
-                                        message: "could not create session"
-                                    },
-                                    { status: 500 }
-                                )
-                            );
-                        }
+    if (createUserResult.isErr) {
+        console.log(createUserResult.unwrapErr());
+        return Response.json(
+            {
+                error: "UserCreationFailed",
+                message: "could not create user"
+            },
+            { status: 500 }
+        );
+    }
 
-                        return Ok(create_session_result.unwrap()[0].id);
-                    })
-                )
-            )
-                .map_err((err) => {
-                    console.log(err);
-                    return Response.json(
-                        {
-                            error: "TransactionFailed",
-                            message: "could not complete transaction"
-                        },
-                        { status: 500 }
-                    );
-                })
-                .flatten();
+    // Create a new session.
+    let createSessionResult = await createSession(
+        sql,
+        createUserResult.unwrap()
+    );
 
-            if (session_result.is_err) {
-                return session_result.unwrap_err();
-            }
+    if (createSessionResult.isErr) {
+        console.log(createSessionResult.unwrapErr());
+        return Response.json(
+            {
+                error: "SessionCreationFailed",
+                message: "could not create session"
+            },
+            { status: 500 }
+        );
+    }
 
-            // Create the cookie headers.
-            let headers = new Headers();
+    // Create the cookie headers.
+    let headers = new Headers();
 
-            // TODO: add max age to cookies.
+    // TODO: add max age to cookies.
 
-            // This one is the session token, which is used to authenticate requests.
-            headers.append(
-                "SET-COOKIE",
-                `session=${session_result.unwrap()};path=/;samesite=strict;httponly`
-            );
-            // This one allows the client to know that the cookie is set.
-            headers.append(
-                "SET-COOKIE",
-                `session_exists=;path=/;samesite=strict`
-            );
+    // This one is the session token, which is used to authenticate requests.
+    headers.append(
+        "SET-COOKIE",
+        `session=${createSessionResult.unwrap()};path=/;samesite=strict;httponly`
+    );
+    // This one allows the client to know that the cookie is set.
+    headers.append("SET-COOKIE", `session_exists=;path=/;samesite=strict`);
 
-            return new Response(null, { status: 200, headers });
-        },
-        Err: async (err) => {
-            console.log(err);
-            return Response.json(
-                {
-                    error: "InvalidJSON",
-                    message: "invalid JSON"
-                },
-                { status: 400 }
-            );
-        }
-    });
+    return new Response(null, { status: 200, headers });
 }
