@@ -32,8 +32,8 @@ const badCredentials = Response.json(
  * - `InvalidEmail`: Invalid `email` field.
  * - `CheckFailed`: Could not check if the user already exists.
  * - `VerificationFailed`: Could not check if the credentials are correct.
- * - `UserAlreadyExists`: A user with the provided email already exists.
- * - `UserCreationFailed`: For some reason, the user could not be created.
+ * - `IncorrectEmailOrPassword`: The credentials were incorrect.
+ * - `SessionCreationFailed`: For some reason, the session could not be created.
  *
  * @param {Request} request
  * @returns {Response}

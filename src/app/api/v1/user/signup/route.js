@@ -29,6 +29,7 @@ const validate = ajv.compile({
  * - `UserAlreadyExists`: A user with the provided email already exists.
  * - `PasshashFailed`: For some reason, the password could not be hashed.
  * - `UserCreationFailed`: For some reason, the user could not be created.
+ * - `SessionCreationFailed`: For some reason, the session could not be created.
  *
  * @param {Request} request
  * @returns {Response}
