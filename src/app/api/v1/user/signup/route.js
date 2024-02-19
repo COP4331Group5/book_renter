@@ -1,5 +1,5 @@
 import { ajv, emailRegex } from "@/lib/validate";
-import { Ok, Err, tryPromise } from "@/lib/fp";
+import { tryPromise } from "@/lib/fp";
 import sql from "@/lib/sql";
 import argon2 from "argon2";
 import { createSession } from "../session";
