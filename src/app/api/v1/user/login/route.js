@@ -22,6 +22,19 @@ const badCredentials = Response.json(
 
 /**
  * Login a user.
+ *
+ * Success Response:
+ * - Cookies `session` and `session_exists`
+ *
+ * Error Responses:
+ * - `InvalidJSON`: The request payload was not valid JSON.
+ * - `ValidationError`: The request payload was the wrong shape.
+ * - `InvalidEmail`: Invalid `email` field.
+ * - `CheckFailed`: Could not check if the user already exists.
+ * - `VerificationFailed`: Could not check if the credentials are correct.
+ * - `UserAlreadyExists`: A user with the provided email already exists.
+ * - `UserCreationFailed`: For some reason, the user could not be created.
+ *
  * @param {Request} request
  * @returns {Response}
  */
