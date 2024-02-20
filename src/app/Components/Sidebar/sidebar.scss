@@ -1,0 +1,101 @@
+:root {
+    --PrimaryColor: #933420;
+    --HoverColor: #eaf2d7;
+    --paleGreen: #abb4c4;
+    --whiteColor: hsl(0, 0%, 100%);
+    --blackColor: hsl(0, 0%, 18%);
+    --textColor: #2b2d42;
+    --bgColor: #faf9f6;
+    --greyText: rgb(190, 190, 190);
+    --inputColor: hsl(330, 12%, 97%);
+
+    /* Font and Typography */
+    --biggestFontSize: 2.5rem;
+    --h1FontSize: 1.5rem;
+    --h2FontSize: 1.25rem;
+    --h3FontSize: 1rem;
+    --normalFontSize: 0.938rem;
+    --smallFontSize: 0.813rem;
+}
+
+.sideBar {
+    background: var(--whiteColor);
+    box-shadow: 1px 0px 4px var(--greyText);
+    width: 18%;
+    height: 100%;
+    gap: 0;
+    overflow: auto;
+
+    .logoDiv {
+        padding: 1.5rem 1.5rem 0;
+        height: 100%;
+        cursor: pointer;
+
+        img {
+            max-width: 50px;
+            margin-right: 0.5rem;
+            background: var(--whiteColor);
+            border-radius: 2px;
+            padding: 0.2rem;
+        }
+
+        h2 {
+            font-size: var(--h1FontSize);
+            color: var(--textColor);
+        }
+    }
+
+    .settingsDiv {
+        margin-bottom: 50%;
+    }
+
+    .menuDiv,
+    .settingsDiv {
+        height: 50%;
+        .divTitle {
+            font-size: var(--h2FontSize);
+            color: var(--textColor);
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .menuLists {
+            font-size: var(--h3FontSize);
+            .listItem {
+                padding: 0.2rem 1.5rem;
+                width: 100%;
+                position: relative;
+
+                &::before {
+                    position: absolute;
+                    content: "";
+                    height: 0%;
+                    left: 0;
+                    width: 5px;
+                    bottom: 0;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    background: var(--textColor);
+                }
+
+                .menuLink {
+                    color: var(--textColor);
+                    font-weight: 500;
+                    transition: 0;
+                    .icon {
+                        margin-right: 0.5rem;
+                    }
+                }
+
+                &:hover .menuLink {
+                    color: var(--textColor);
+                    transition: 0;
+                }
+
+                &:hover::before {
+                    height: 100%;
+                    transition: 0.3s ease;
+                }
+            }
+        }
+    }
+}
