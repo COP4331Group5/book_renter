@@ -1,7 +1,7 @@
 import React from "react";
-import "../Library/libraryBody.css";
-import Bookshelf from "./Bookshelf/Bookshelf.jsx";
-import LibraryTop from "./LibraryTop/LibraryTop.jsx";
+import "../library/library_body.scss";
+import Bookshelf from "./bookshelf/bookshelf.jsx";
+import LibraryTop from "./library_top/library_top.jsx";
 
 const LibraryBody = () => {
     return (

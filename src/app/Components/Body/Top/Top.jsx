@@ -1,5 +1,5 @@
 import React from "react";
-import "./top.css";
+import "./top.scss";
 import Image from "next/image";
 
 // Imported icons
@@ -8,9 +8,8 @@ import { MdOutlineNotificationsNone } from "react-icons/md";
 import { BsArrowRightShort, BsQuestionCircle } from "react-icons/bs";
 
 // Imported images
-import img from "../../../../../public/Assets/admin.jpg";
-import video from "../../../../../public/Assets/admin.jpg";
-import img2 from "../../../../../public/Assets/Classics/img6.jpg";
+import img from "@public/assets/admin.jpg";
+import img2 from "@public/assets/classics/img6.jpg";
 
 const Top = () => {
     return (
@@ -47,7 +46,12 @@ const Top = () => {
                     </div>
 
                     <div className="videoDiv">
-                        <video src={video} autoPlay loop muted></video>
+                        <video
+                            src="/assets/video.mov"
+                            autoPlay
+                            loop
+                            muted
+                        ></video>
                     </div>
                 </div>
 

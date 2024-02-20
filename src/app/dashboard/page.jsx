@@ -1,6 +1,6 @@
 import "../globals.css";
-import Sidebar from "../Components/Sidebar/Sidebar";
-import Body from "../Components/Body/Body";
+import Sidebar from "../components/sidebar/sidebar";
+import Body from "../components/body/body";
 
 export function Dashboard() {
     return (

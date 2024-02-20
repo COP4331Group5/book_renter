@@ -1,5 +1,5 @@
 import React from "react";
-import "./listing.css";
+import "./listing.scss";
 import Image from "next/image";
 
 // Imported icons
@@ -8,14 +8,14 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsArrowRightShort } from "react-icons/bs";
 
 // Imported images
-import img from "../../../../../public/Assets/Classics/img1.jpg";
-import img1 from "../../../../../public/Assets/Classics/img2.jpg";
-import img2 from "../../../../../public/Assets/Classics/img3.jpg";
-import img3 from "../../../../../public/Assets/Classics/img4.jpg";
-import img4 from "../../../../../public/Assets/Classics/img5.jpg";
-import img5 from "../../../../../public/Assets/Classics/img5.jpg";
-import img6 from "../../../../../public/Assets/Classics/img5.jpg";
-import img7 from "../../../../../public/Assets/Classics/img5.jpg";
+import img from "@public/assets/classics/img1.jpg";
+import img1 from "@public/assets/classics/img2.jpg";
+import img2 from "@public/assets/classics/img3.jpg";
+import img3 from "@public/assets/classics/img4.jpg";
+import img4 from "@public/assets/classics/img5.jpg";
+import img5 from "@public/assets/classics/img5.jpg";
+import img6 from "@public/assets/classics/img5.jpg";
+import img7 from "@public/assets/classics/img5.jpg";
 
 const Listing = () => {
     return (

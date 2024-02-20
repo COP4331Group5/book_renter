@@ -1,5 +1,5 @@
 import React from "react";
-import "./activity.css";
+import "./activity.scss";
 
 const Activity = () => {
     return (
