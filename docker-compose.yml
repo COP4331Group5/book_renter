@@ -28,6 +28,9 @@ services:
       - /srv/node_modules
       - /srv/.next
       - /srv/.turbo
+    networks:
+      - default
+      - db_net
   db:
     build:
       context: .
