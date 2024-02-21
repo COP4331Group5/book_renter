@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .full-page {
+      height: 100%;
+      width: 100%;
+      background-color: #FFFACD;/* Cream background color */
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;/* Set a negative z-index to place it behind other elements */
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      padding-left: 50px;
+      padding-right: 30px;
+      padding-top: 50px;
+    }
+
+    nav {
+      flex: 1;
+      text-align: right;
+    }
+
+    nav ul {
+      display: inline-block;
+      list-style: none;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin-right: 70px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-size: 10px;
+      color: #E7CC9D;
+      font-family: sans-serif;
+    }
+
+    nav ul li button {
+      font-size: 10px;
+      color: white;
+      outline: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+
+    a {
+      font-size: 20px;
+    }
+
+    #login-form {
+      display: none;
+    }
+
+    .form-box {
+      width: 380px;
+      height: 480px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f2d8ac;
+      padding: 10px;
+      overflow: hidden;
+      border-radius: 80px;
+      background: rgba(242, 216, 172, 0.8);
+      box-shadow: 0 0 20px 9px #E38E40; /* Add glow effect */
+    }
+
+    .button-box {
+      width: 220px;
+      margin: 35px auto;
+      position: relative;
+      box-shadow: 0 0 20px 9px #E38E40;
+      border-radius: 30px;
+    }
+
+    .toggle-btn {
+      padding: 10px 30px;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      outline: none;
+      position: relative;
+    }
+
+    #btn {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: 110px;
+      height: 100%;
+      background: #ca7f70;
+      border-radius: 30px;
+      transition: .5s;
+    }
+
+    .input-group-login {
+      top: 150px;
+      position: absolute;
+      width: 280px;
+      transition: .5s;
+    }
+
+    .input-group-register {
+      top: 120px;
+      position: absolute;
+      width: 280px;
+      transition: .5s;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 10px 0;
+      margin: 5px 0;
+      border-left: 0;
+      border-top: 0;
+      border-right: 0;
+      border-bottom: 1px solid #d99d35;
+      outline: none;
+      background: transparent;
+    }
+
+    .submit-btn {
+      width: 85%;
+      padding: 10px 30px;
+      cursor: pointer;
+      display: block;
+      margin: auto;
+      background: #699C6F;
+      border: 0;
+      outline: none;
+      border-radius: 30px;
+    }
+
+    .check-box {
+      margin: 30px 10px 34px 0;
+    }
+
+    span {
+      color: #777;
+      font-size: 12px;
+      bottom: 68px;
+      position: absolute;
+    }
+
+    #login {
+      left: 50px;
+    }
+
+    #login input {
+      color: white;
+      font-size: 15;
+    }
+
+    #register {
+      left: 450px;
+    }
+
+    #register input {
+      color: white;
+      font-size: 15;
+    }
+
+    nav {
+      margin-top: 10px;
+      text-align: center;
+      /* Center align the navigation */
+      height: fit-content;
+      flex-flow: column;
+      justify-items: center;
+      position: absolute;
+      width: 100%;
+    }
+
+    nav a {
+      border-radius: 80px;
+      display: inline-block;
+      height: fit-content;
+      color: #933420;
+      /* Using the sunset color */
+      text-decoration: none;
+      font-family: Sofia Pro;
+      text-align: center;
+      padding: 5px 15px;
+      /* Equal padding on top/bottom and left/right */
+      background-color: #ffe6bd;
+      /* Using the butterscotch color */
+      position: relative;
+      margin: 0 20px;
+      /* Add some margin between menu items */
+    }
+
+    nav a:hover {
+      background-color: #933420;
+      /* Using the asparagus color */
+      color: #E38E40;
+      /* Using the burnt-umber color */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffe6bd;
+      /* Using the baby-powder color */
+      overflow: auto;
+      /* Allow vertical scrolling */
+    }
+
+    .img-container {
+      background: url('Logo/BG.png') center/cover no-repeat;
+      width: 100%;
+      height: 100vh;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <title>Sign in & Sign up Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">About Us</a>
+    <a href="login.html">Login</a>
+  </nav>
+  <main>
+    <div class="img-container">
+      <div id='login_form' class='login-page'>
+        <div class="form-box">
+          <div class='button-box'>
+            <div id='btn'></div>
+            <button type='button' onclick='login()' class='toggle-btn'>Log In</button>
+            <button type='button' onclick='register()' class='toggle-btn'>Register</button>
+          </div>
+          <div id='login' class='input-group-login'>
+            <input type='text' class='input-field' placeholder='Email Id' required>
+            <input type='password' class='input-field' placeholder='Enter Password' required>
+            <input type='checkbox' class='check-box'><span>Remember Password</span>
+            <button type='button' class='submit-btn' onclick='redirectToPage()'>Log in</button>
+          </div>
+          <form id='register' class='input-group-register'>
+            <input type='text' class='input-field' placeholder='First Name' required>
+            <input type='text' class='input-field' placeholder='Last Name ' required>
+            <input type='email' class='input-field' placeholder='Email Id' required>
+            <input type='password' class='input-field' placeholder='Enter Password' required>
+            <input type='password' class='input-field' placeholder='Confirm Password' required>
+            <input type='checkbox' class='check-box'><span>I agree to the terms and conditions</span>
+            <button type='submit' class='submit-btn'>Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    var x = document.getElementById('login');
+    var y = document.getElementById('register');
+    var z = document.getElementById('btn');
+    var loginForm = document.getElementById('login_form');
+
+    // Select the login button using its id
+    var loginButton = document.getElementById('loginButton');
+
+    function register() {
+      x.style.left = '-400px';
+      y.style.left = '50px';
+      z.style.left = '110px';
+    }
+
+    function login() {
+      x.style.left = '50px';
+      y.style.left = '450px';
+      z.style.left = '0px';
+    }
+
+    // Function to display the login form
+    function displayLoginForm() {
+      loginForm.style.display = 'block';
+    }
+
+    // Function to redirect to the selected page
+    function redirectToPage() {
+      var selectedPage = document.getElementById('MenuItems');
+      if (selectedPage.tagName === 'A') {
+        window.location.href = selectedPage.getAttribute('href');
+      }
+    }
+
+    var modal = document.getElementById('login_form');
+
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Add event listeners for menu items to navigate to respective pages
+    document.getElementById('MenuItems').addEventListener('click', function (event) {
+      var target = event.target;
+      if (target.tagName === 'A') {
+        window.location.href = target.getAttribute('href');
+      }
+    });
+  </script>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
