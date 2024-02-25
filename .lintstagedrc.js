@@ -5,7 +5,12 @@ const buildEslintCommand = (filenames) =>
         .map((f) => path.relative(process.cwd(), f))
         .join(" --file ")}`;
 
+const buildPrettierCommand = (filenames) =>
+    `prettier ${filenames
+        .map((f) => path.relative(process.cwd(), f))
+        .join(" ")} --check`;
+
 module.exports = {
-    "**/*": ["npx prettier . --check"],
+    "**/*": [buildPrettierCommand],
     "*.{js,jsx,ts,tsx}": [buildEslintCommand]
 };
