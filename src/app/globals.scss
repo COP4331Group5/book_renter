@@ -1,0 +1,139 @@
+@use "button";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colors and Styles */
+:root {
+    --primary-color: #932c20;
+    --primary-hover-color: #a73a25;
+    --hover-color: #eaf2d7;
+    --pale-green: #abb4c4;
+    --white-color: hsl(0deg 0% 100%);
+    --black-color: hsl(0deg 0% 18%);
+    --text-color: #2b2d42;
+    --background-color: #faf9f6;
+    --farground-color: #fff; // Color of entire page
+    --input-color: hsl(330deg 12% 97%);
+    --shadow-color: #bebebe;
+
+    /* Font and Typography */
+    --regular-weight: 500;
+    --header-weight: 700;
+    --bold-weight: 800;
+    --h1-size: 1.5rem;
+    --h2-size: 1.25rem;
+    --h3-size: 1rem;
+    --p-size: 1rem;
+    --small-size: 0.813rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #151519;
+        --farground-color: #0e0e12;
+        --text-color: #fff;
+        --shadow-color: #050505;
+    }
+}
+
+*,
+::before,
+::after {
+    margin: 0;
+}
+
+/* Default styles */
+html {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    padding: 0;
+    font-size: 90%;
+    font-family: Montserrat, sans-serif;
+    font-weight: var(--regular-weight);
+    color: var(--text-color);
+    transition: 0.3s ease;
+    background-color: var(--farground-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1 {
+    font-size: var(--h1-size);
+    font-weight: var(--header-weight);
+}
+
+h2 {
+    font-size: var(--h2-size);
+    font-weight: var(--header-weight);
+}
+
+h3 {
+    font-size: var(--h3-size);
+    font-weight: var(--header-weight);
+}
+
+p {
+    font-size: var(--p-size);
+}
+
+small {
+    font-size: var(--small-size);
+}
+
+b,
+strong {
+    font-weight: var(--bold-weight);
+}
+
+br {
+    display: block;
+    margin: 4px 0;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.grid {
+    display: grid;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 1rem;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    width: 95vw;
+    height: 95vh;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background: var(--background-color);
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 12px var(--shadow-color);
+}
+
+/* Hide the scroll thumb */
+::-webkit-scrollbar {
+    display: none;
+}

@@ -1,76 +1,60 @@
 import React from "react";
-import "./listing.scss";
+import styles from "./listing.module.scss";
 import Image from "next/image";
 
-// Imported icons
-import { AiFillHeart } from "react-icons/ai";
-import { AiOutlineHeart } from "react-icons/ai";
-import { BsArrowRightShort } from "react-icons/bs";
+import CoverBtn from "@components/buttons/cover_btn/cover_btn";
+import SeeAllBtn from "@components/buttons/see_all_btn/see_all_btn";
 
 // Imported images
-import img from "@public/assets/classics/img1.jpg";
-import img1 from "@public/assets/classics/img2.jpg";
-import img2 from "@public/assets/classics/img3.jpg";
-import img3 from "@public/assets/classics/img4.jpg";
 import img4 from "@public/assets/classics/img5.jpg";
 import img5 from "@public/assets/classics/img5.jpg";
 import img6 from "@public/assets/classics/img5.jpg";
-import img7 from "@public/assets/classics/img5.jpg";
 
-const Listing = () => {
+export default function Listing() {
     return (
-        <div className="listingSection">
-            <div className="heading flex">
+        <div className="basis-3/4">
+            <div className="flex items-center justify-between">
                 <h1>My Library</h1>
-                <button className="btn flex">
-                    See All <BsArrowRightShort className="icon" />
-                </button>
+                <SeeAllBtn href="/library" />
             </div>
 
-            <div className="secContainer flex">
-                <div className="singleItem">
-                    <AiFillHeart className="icon" />
-                    <Image src={img} alt="Image Name" />
-                    <h3>Crime and Punishment</h3>
-                </div>
-
-                <div className="singleItem">
-                    <AiOutlineHeart className="icon" />
-                    <Image src={img1} alt="Image Name" />
-                    <h3>Of Mice and Men</h3>
-                </div>
-
-                <div className="singleItem">
-                    <AiOutlineHeart className="icon" />
-                    <Image src={img2} alt="Image Name" />
-                    <h3>Frankenstein</h3>
-                </div>
-
-                <div className="singleItem">
-                    <AiFillHeart className="icon" />
-                    <Image src={img3} alt="Image Name" />
-                    <h3>Little Women</h3>
-                </div>
+            <div id={styles.library}>
+                <CoverBtn
+                    name="Crime and Punishment"
+                    img="/assets/classics/img1.jpg"
+                    link="#"
+                />
+                <CoverBtn
+                    name="Of Mice and Men"
+                    img="/assets/classics/img2.jpg"
+                    link="#"
+                />
+                <CoverBtn
+                    name="Frankenstein"
+                    img="/assets/classics/img3.jpg"
+                    link="#"
+                />
+                <CoverBtn
+                    name="Little Women"
+                    img="/assets/classics/img4.jpg"
+                    link="#"
+                />
             </div>
 
-            <div className="sellers flex">
-                <div className="topAuthors">
-                    <div className="heading flex">
+            <div id={styles.sellers}>
+                <div id={styles["top-authors"]}>
+                    <div className="flex items-center justify-between gap-4">
                         <h3>Top Authors</h3>
-                        <a href="#/library" className="menuLink flex">
-                            <button href="#/library" className="btn flex">
-                                See All <BsArrowRightShort className="icon" />
-                            </button>
-                        </a>
+                        <SeeAllBtn href="#" />
                     </div>
 
-                    <div className="card flex">
-                        <div className="users">
+                    <div className={styles.card}>
+                        <div className={styles.users}>
                             <Image src={img4} alt="User Image" />
                             <Image src={img5} alt="User Image" />
                             <Image src={img6} alt="User Image" />
                         </div>
-                        <div className="cardText">
+                        <div className={styles["card-text"]}>
                             <span>
                                 2,600 Books Sold <br />
                                 <small>10 Authors</small>
@@ -79,21 +63,19 @@ const Listing = () => {
                     </div>
                 </div>
 
-                <div className="featuredAuthors">
-                    <div className="heading flex">
+                <div id={styles["featured-authors"]}>
+                    <div className="flex items-center justify-between gap-4">
                         <h3>Featured Authors</h3>
-                        <button className="btn flex">
-                            See All <BsArrowRightShort className="icon" />
-                        </button>
+                        <SeeAllBtn href="#" />
                     </div>
 
-                    <div className="card flex">
-                        <div className="users">
+                    <div className={styles.card}>
+                        <div className={styles.users}>
                             <Image src={img4} alt="User Image" />
                             <Image src={img5} alt="User Image" />
                             <Image src={img6} alt="User Image" />
                         </div>
-                        <div className="cardText">
+                        <div className={styles["card-text"]}>
                             <span>
                                 1,400 Books Sold <br />
                                 <small>10 Authors</small>
@@ -104,6 +86,4 @@ const Listing = () => {
             </div>
         </div>
     );
-};
-
-export default Listing;
+}

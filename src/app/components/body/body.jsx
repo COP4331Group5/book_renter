@@ -4,17 +4,15 @@ import Top from "./top/top";
 import Listing from "./listing/listing";
 import Activity from "./activity/activity";
 
-const Body = () => {
+export default function Body() {
     return (
-        <div className="mainContent">
+        <div className="main-content">
             <Top />
 
-            <div className="bottom flex">
+            <div className="bottom flex items-center">
                 <Listing />
                 <Activity />
             </div>
         </div>
     );
-};
-
-export default Body;
+}

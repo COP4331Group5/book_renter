@@ -1,32 +1,12 @@
-:root {
-    --PrimaryColor: #933420;
-    --HoverColor: #eaf2d7;
-    --paleGreen: #abb4c4;
-    --whiteColor: hsl(0, 0%, 100%);
-    --blackColor: hsl(0, 0%, 18%);
-    --textColor: #2b2d42;
-    --bgColor: #faf9f6;
-    --greyText: rgb(190, 190, 190);
-    --inputColor: hsl(330, 12%, 97%);
-
-    /* Font and Typography */
-    --biggestFontSize: 2.5rem;
-    --h1FontSize: 1.5rem;
-    --h2FontSize: 1.25rem;
-    --h3FontSize: 1rem;
-    --normalFontSize: 0.938rem;
-    --smallFontSize: 0.813rem;
-}
-
-.sideBar {
-    background: var(--whiteColor);
-    box-shadow: 1px 0px 4px var(--greyText);
+#sidebar {
+    background-color: var(--farground-color);
+    box-shadow: 1px 0 4px var(--shadow-color);
     width: 18%;
     height: 100%;
     gap: 0;
     overflow: auto;
 
-    .logoDiv {
+    #logo {
         padding: 1.5rem 1.5rem 0;
         height: 100%;
         cursor: pointer;
@@ -34,33 +14,38 @@
         img {
             max-width: 50px;
             margin-right: 0.5rem;
-            background: var(--whiteColor);
-            border-radius: 2px;
             padding: 0.2rem;
+            @media (prefers-color-scheme: dark) {
+                & {
+                    filter: invert(1);
+                }
+            }
         }
 
         h2 {
-            font-size: var(--h1FontSize);
-            color: var(--textColor);
+            font-size: var(--h1-size);
+            color: var(--text-color);
         }
     }
 
-    .settingsDiv {
+    #settings {
         margin-bottom: 50%;
     }
 
-    .menuDiv,
-    .settingsDiv {
+    #menu,
+    #settings {
         height: 50%;
-        .divTitle {
-            font-size: var(--h2FontSize);
-            color: var(--textColor);
+
+        .title {
+            font-size: var(--h2-size);
+            color: var(--text-color);
             padding: 0 1.5rem 1.5rem;
         }
 
-        .menuLists {
-            font-size: var(--h3FontSize);
-            .listItem {
+        .menu-list {
+            font-size: var(--h3-color);
+
+            .list-item {
                 padding: 0.2rem 1.5rem;
                 width: 100%;
                 position: relative;
@@ -74,20 +59,23 @@
                     bottom: 0;
                     border-top-right-radius: 10px;
                     border-bottom-right-radius: 10px;
-                    background: var(--textColor);
+                    background: var(--text-color);
                 }
 
-                .menuLink {
-                    color: var(--textColor);
+                .menu-link {
+                    display: flex;
+                    align-items: center;
+                    color: var(--text-color);
                     font-weight: 500;
                     transition: 0;
-                    .icon {
+
+                    svg {
                         margin-right: 0.5rem;
                     }
                 }
 
-                &:hover .menuLink {
-                    color: var(--textColor);
+                &:hover .menu-link {
+                    color: var(--text-color);
                     transition: 0;
                 }
 

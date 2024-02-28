@@ -6,12 +6,12 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "check": "next lint && prettier --check . ",
+        "check": "next lint && prettier --check . && stylelint \"**/*.scss\"",
         "check:lint": "next lint",
-        "check:format": "prettier --check .",
-        "fix": "next lint --fix && prettier --write .",
+        "check:format": "prettier --check . && stylelint \"**/*.scss\"",
+        "fix": "next lint --fix && prettier --write . && stylelint --fix \"**/*.scss\"",
         "fix:lint": "next lint --fix",
-        "fix:format": "prettier --write .",
+        "fix:format": "prettier --write . && stylelint --fix \"**/*.scss\"",
         "prepare": "husky install"
     },
     "dependencies": {
@@ -39,6 +39,9 @@
         "prettier": "3.2.5",
         "prettier-plugin-tailwindcss": "^0.5.11",
         "sass": "^1.71.0",
+        "stylelint": "^16.2.1",
+        "stylelint-config-prettier-scss": "^1.0.0",
+        "stylelint-config-standard-scss": "^13.0.0",
         "tailwindcss": "^3.3.0",
         "turbo": "^1.11.3"
     },

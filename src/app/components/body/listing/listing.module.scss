@@ -1,0 +1,72 @@
+#library {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#sellers {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    #top-authors,
+    #featured-authors {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        justify-content: space-between;
+
+        .heading {
+            padding: 1rem 0;
+
+            .btn {
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: var(--farground-color);
+            gap: 1rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
+
+            .users {
+                padding-right: 1rem;
+                border-right: 2px solid var(--shadow-color);
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid var(--input-color);
+                    transition: 0.5s ease;
+
+                    &:hover {
+                        transform: translateY(-10px);
+                    }
+                }
+            }
+
+            .card-text {
+                span {
+                    color: var(--text-color);
+                    font-weight: 500;
+
+                    small {
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

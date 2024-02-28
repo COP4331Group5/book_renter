@@ -1,0 +1,35 @@
+.button {
+    position: relative;
+    width: 150px;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+
+    h3 {
+        text-align: center;
+        padding: 0.5rem;
+        color: white;
+    }
+
+    svg {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: var(--white-color);
+    }
+
+    img {
+        height: 150px;
+        margin-bottom: 0.25rem;
+    }
+
+    &:hover {
+        background: var(--primary-hover-color);
+        box-shadow: 0 2px 2px var(--shadow-color);
+    }
+}

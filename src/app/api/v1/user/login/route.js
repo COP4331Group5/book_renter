@@ -2,7 +2,7 @@ import { ajv, emailRegex } from "@/lib/validate";
 import sql from "@/lib/sql";
 import { tryPromise } from "@/lib/fp";
 import argon2 from "argon2";
-import { createSession } from "../session";
+import { createSession, createSessionCookies } from "../session";
 
 /** @type {(x: any) => boolean} */
 const validate = ajv.compile({
@@ -141,17 +141,11 @@ export async function POST(request) {
     }
 
     // Create the cookie headers.
-    let headers = new Headers();
-
-    // TODO: add max age to cookies.
-
-    // This one is the session token, which is used to authenticate requests.
-    headers.append(
-        "SET-COOKIE",
-        `session=${createSessionResult.unwrap()};path=/;samesite=strict;httponly`
+    let headers = createSessionCookies(
+        createSessionResult.unwrap(),
+        form.display,
+        form.email
     );
-    // This one allows the client to know that the cookie is set.
-    headers.append("SET-COOKIE", `session_exists=;path=/;samesite=strict`);
 
     return new Response(null, { status: 200, headers });
 }

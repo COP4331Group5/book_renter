@@ -1,8 +1,7 @@
-import "../globals.css";
-import Sidebar from "../Components/Sidebar/Sidebar";
-import LibraryBody from "../Components/Library/LibraryBody";
+import Sidebar from "../components/sidebar/sidebar";
+import LibraryBody from "../components/library/library_body";
 
-export function Library() {
+export default function Library() {
     return (
         <div className="container">
             <Sidebar />
@@ -10,5 +9,3 @@ export function Library() {
         </div>
     );
 }
-
-export default Library;

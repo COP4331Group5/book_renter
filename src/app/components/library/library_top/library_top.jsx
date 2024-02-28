@@ -1,12 +1,9 @@
 import React from "react";
-import "./librarytop.scss";
 
 const LibraryTop = () => {
     return (
-        <div className="headerSection flex">
-            <div className="title">
-                <h1>Gabby's Novel Nest Library</h1>
-            </div>
+        <div className="flex items-center justify-between">
+            <h1 className="text-4xl">Gabby's Novel Nest Library</h1>
         </div>
     );
 };

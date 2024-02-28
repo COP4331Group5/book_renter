@@ -2,13 +2,13 @@ import "./page.scss";
 
 export default function Page() {
     return (
-        <body>
+        <div class="container flex-col">
             <header>
                 <nav>
-                    <a href="home.html">Home</a>
-                    <a href="shop1.html">Shop</a>
+                    <a href="home">Home</a>
+                    <a href="shop1">Shop</a>
                     <a href="#">About Us</a>
-                    <a href="login.html">Login</a>
+                    <a href="login">Login</a>
                 </nav>
             </header>
 
@@ -21,6 +21,6 @@ export default function Page() {
                     </a>
                 </div>
             </div>
-        </body>
+        </div>
     );
 }

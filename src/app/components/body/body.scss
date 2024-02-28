@@ -1,11 +1,15 @@
-.mainContent {
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2rem;
     width: 82%;
     height: 100%;
-    padding: 2rem;
+    padding: 1.5rem;
     overflow: auto;
 
     .bottom {
-        margin-top: 2rem;
         gap: 2rem;
         align-items: flex-start;
     }

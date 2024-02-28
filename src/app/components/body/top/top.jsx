@@ -1,5 +1,5 @@
 import React from "react";
-import "./top.scss";
+import styles from "./top.module.scss";
 import Image from "next/image";
 
 // Imported icons
@@ -13,67 +13,71 @@ import img2 from "@public/assets/classics/img6.jpg";
 
 const Top = () => {
     return (
-        <div className="topSection">
-            <div className="headerSection flex">
-                <div className="title">
-                    <h1>Welcome to Novel Nest.</h1>
+        <div>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-4xl">Welcome to Novel Nest.</h1>
+                    <br />
                     <p>Happy reading, Gabby!</p>
                 </div>
 
-                <div className="searchBar flex">
+                <div id={styles["search-bar"]}>
                     <input type="text" placeholder="Search Dashboard" />
-                    <BiSearchAlt className="icon" />
+                    <BiSearchAlt id={styles["search-icon"]} />
                 </div>
 
-                <div className="adminDiv flex">
+                <div className="flex items-center gap-4">
                     <MdOutlineNotificationsNone className="icon" />
-                    <div className="adminImage">
-                        <Image src={img} alt="Admin Image" />
-                    </div>
+                    <Image
+                        id={styles["admin-image"]}
+                        src={img}
+                        alt="Admin Image"
+                    />
                 </div>
             </div>
 
-            <div className="cardSection flex">
-                <div className="rightCard flex">
-                    <h1>Explore our top sellers</h1>
-                    <p>
-                        Novel Nest offers a curated selection of quality books
-                    </p>
+            <div className="mt-12 flex items-center gap-4">
+                <div id={styles["explore"]}>
+                    <div className="z-10 text-white">
+                        <h1>Explore our top sellers</h1>
+                        <p>
+                            Novel Nest offers a curated selection of quality
+                            books
+                        </p>
 
-                    <div className="buttons flex">
-                        <button className="btn">Top Sellers</button>
-                        <button className="btn transparent">Browse All</button>
+                        <div className="flex gap-4 pt-4">
+                            <button className={styles["explore-btn"]}>
+                                Top Sellers
+                            </button>
+                            <button className={styles["explore-btn"]}>
+                                Browse All
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="videoDiv">
-                        <video
-                            src="/assets/video.mov"
-                            autoPlay
-                            loop
-                            muted
-                        ></video>
-                    </div>
+                    <video src="/assets/video.mov" autoPlay loop muted></video>
                 </div>
 
-                <div className="leftCard flex">
-                    <div className="main flex">
-                        <div className="textDiv">
-                            <h1>Pick up where you left off...</h1>
+                <div className="flex basis-1/2 items-center">
+                    <div id={styles["main"]}>
+                        <div id={styles["pick-up"]}>
+                            <h2>Pick up where you left off...</h2>
 
-                            <div className="flex">
+                            <div className="items-center gap-2">
                                 <span>3 Days Remaining</span>
+                                <br />
                                 <span>127/250 Pages Read</span>
                             </div>
 
-                            <span className="link flex">
-                                Resume reading{" "}
-                                <BsArrowRightShort className="icon" />
+                            <span
+                                id={styles["pick-up-link"]}
+                                className="flex items-center"
+                            >
+                                Resume reading <BsArrowRightShort />
                             </span>
                         </div>
 
-                        <div className="imgDiv">
-                            <Image src={img2} alt="Image Name" />
-                        </div>
+                        <Image src={img2} alt="Image Name" />
 
                         {/*<div className="sideBarCard">
                             <BsQuestionCircle className='icon'/>
