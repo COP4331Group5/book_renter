@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import styles from "./auth_form.module.scss";
 
-import Field from "@/app/components/input/field/field";
+import Field from "@components/input/field/field";
 import { emailRegex } from "@/lib/validate";
 
 const toggleBtn = styles["toggle-btn"];

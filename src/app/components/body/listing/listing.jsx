@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./listing.module.scss";
 import Image from "next/image";
 
-import CoverBtn from "@/app/components/input/cover_btn/cover_btn";
-import SeeAllBtn from "@/app/components/input/see_all_btn/see_all_btn";
+import CoverBtn from "@components/input/cover_btn/cover_btn";
+import SeeAllBtn from "@components/input/see_all_btn/see_all_btn";
 
 // Imported images
 import img4 from "@public/assets/classics/img5.jpg";
