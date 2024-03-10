@@ -7,13 +7,13 @@ export const metadata = {
 
 export default function Login() {
     return (
-        <body>
-            <NavBar></NavBar>
-            <main>
-                <div className="img-container">
+        <div className="container">
+            <div className="width-full height-full flex flex-col items-center justify-start gap-[25vh]">
+                <NavBar></NavBar>
+                <main>
                     <AuthForm></AuthForm>
-                </div>
-            </main>
-        </body>
+                </main>
+            </div>
+        </div>
     );
 }

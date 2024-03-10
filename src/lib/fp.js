@@ -40,6 +40,16 @@ export class Maybe {
     }
 
     /**
+     * Runs a function on the contained value.
+     * @param {(x: T) => void} fn Function to be called on the value.
+     */
+    inspect(fn) {
+        if (this.isSome) {
+            fn(this.#value);
+        }
+    }
+
+    /**
      * Map `Some<T>` to `Some<A>`.
      * @template A
      * @param {(x: T) => A} fn Function that maps `T` to `A`.
@@ -295,4 +305,42 @@ export function tryCatch(fn) {
         result = Err(e);
     }
     return result;
+}
+
+/**
+ * Allows for canceling a promise.
+ * @param {Promise<any>} promise Promise that may be canceled.
+ * @param {() => void | null | undefined} dropFn Function to clean up promise on cancel.
+ * @returns {[Promise<any>, () => void]}
+ */
+export function cancelable(promise, dropFn) {
+    let drop = new Maybe(dropFn);
+    const isCancelled = { value: false };
+    const wrapped = new Promise((res, rej) => {
+        promise
+            .then((v) => {
+                return isCancelled.value ? rej(new Error("cancelled")) : res(v);
+            })
+            .catch((e) => {
+                return isCancelled.value ? new Error("cancelled") : e;
+            });
+    });
+
+    const cancel = () => {
+        isCancelled.value = true;
+        drop.inspect((d) => d());
+    };
+
+    return [wrapped, cancel];
+}
+
+/**
+ * Delays a promise.
+ * @param {number} delay Time in milliseconds to delay.
+ * @returns {Promise<void>}
+ */
+export function sleep(delay) {
+    return new Promise((resolve, _) => {
+        setTimeout(resolve, delay);
+    });
 }

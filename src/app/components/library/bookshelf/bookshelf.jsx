@@ -1,7 +1,7 @@
 import React from "react";
 import "./bookshelf.scss";
 
-import CoverBtn from "@components/buttons/cover_btn/cover_btn";
+import CoverBtn from "@/app/components/input/cover_btn/cover_btn";
 
 export default function Bookshelf() {
     return (

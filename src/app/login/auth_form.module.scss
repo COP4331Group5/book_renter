@@ -1,13 +1,51 @@
-#auth-toggle {
-    width: 380px;
-    height: 32px;
+@use "button";
+@use "text_input";
+
+#auth-form {
+    @apply flex w-80 flex-col items-center justify-between overflow-y-auto rounded-2xl bg-farground-light p-8 sm:w-96 dark:bg-farground-dark;
+
+    max-height: calc(75vh - 4rem);
+}
+
+.toggle-btn {
+    @include button.button;
+
+    width: 100px;
+    height: 50px;
+    border-radius: 9999px;
+    color: var(--white-color);
+
+    & span {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+#toggle-btn-bg {
+    width: 100px;
+    height: 50px;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px;
-    overflow: hidden;
-    border-radius: 80px;
-    background: rgb(242 216 172 / 80%);
-    box-shadow: 0 0 20px 9px #e38e40;
+    background-color: var(--primary-color);
+    z-index: 0;
+    border-radius: 9999px;
+    transform: translateX(0) translateY(0);
+    transition: transform 0.2s;
+
+    &[data-right] {
+        transform: translateX(100px) translateY(0);
+    }
+}
+
+.text-input {
+    @include text_input.text-input;
+}
+
+.submit-btn {
+    @include button.button;
+
+    width: 100%;
+
+    &:hover {
+        outline: var(--text-color) 1px solid;
+    }
 }

@@ -6,15 +6,16 @@
 
 /* Colors and Styles */
 :root {
-    --primary-color: #932c20;
-    --primary-hover-color: #a73a25;
+    --primary-color: theme("colors.primary");
+    --primary-light-color: theme("colors.primary-light");
+    --primary-dark-color: theme("colors.primary-dark");
     --hover-color: #eaf2d7;
     --pale-green: #abb4c4;
     --white-color: hsl(0deg 0% 100%);
     --black-color: hsl(0deg 0% 18%);
     --text-color: #2b2d42;
-    --background-color: #faf9f6;
-    --farground-color: #fff; // Color of entire page
+    --background-color: theme("colors.background.light");
+    --farground-color: theme("colors.farground.light"); // Color of entire page
     --input-color: hsl(330deg 12% 97%);
     --shadow-color: #bebebe;
 
@@ -31,8 +32,8 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background-color: #151519;
-        --farground-color: #0e0e12;
+        --background-color: theme("colors.background.dark");
+        --farground-color: theme("colors.farground.dark");
         --text-color: #fff;
         --shadow-color: #050505;
     }

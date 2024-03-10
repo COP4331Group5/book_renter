@@ -1,0 +1,11 @@
+@use "text_input";
+
+.text-input {
+    @include text_input.text-input;
+
+    &:not(:placeholder-shown):invalid {
+        @apply bg-red-600 outline outline-1 outline-red-400;
+
+        color: var(--white-color);
+    }
+}
