@@ -7,9 +7,9 @@ export const metadata = {
 
 export default function Login() {
     return (
-        <div className="container">
-            <div className="width-full height-full flex flex-col items-center justify-start gap-[25vh]">
-                <NavBar></NavBar>
+        <div className="container flex-col">
+            <NavBar></NavBar>
+            <div className="width-full height-full mt-8 flex flex-col items-center justify-start gap-[25vh]">
                 <main>
                     <AuthForm></AuthForm>
                 </main>

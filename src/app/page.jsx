@@ -1,17 +1,11 @@
 import "./page.scss";
 
+import NavBar from "@components/navbar/navbar";
+
 export default function Page() {
     return (
         <div class="container flex-col">
-            <header>
-                <nav>
-                    <a href="home">Home</a>
-                    <a href="shop1">Shop</a>
-                    <a href="#">About Us</a>
-                    <a href="login">Login</a>
-                </nav>
-            </header>
-
+            <NavBar />
             <div className="img-container">
                 <div className="inner-container">
                     <h1>NovelNest</h1>

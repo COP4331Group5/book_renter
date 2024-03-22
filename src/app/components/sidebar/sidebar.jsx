@@ -3,7 +3,7 @@ import styles from "./sidebar.module.scss";
 import Image from "next/image";
 
 // Imported images
-import logo from "../../../../public/Assets/book.png";
+import logo from "@public/assets/book.png";
 
 // Imported icons
 import { MdHome } from "react-icons/md";
@@ -25,7 +25,7 @@ export default function Sidebar() {
                 href="/"
             >
                 <Image src={logo} alt="Image Name" />
-                <h2>Novel Nest.</h2>
+                <h1>Novel Nest.</h1>
             </a>
 
             <div id={styles["menu"]}>
