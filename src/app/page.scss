@@ -1,62 +1,3 @@
-/* Style the navigation */
-header {
-    background-color: #ffe6bd;
-    text-align: center;
-
-    /* Center align the navigation */
-    padding: 0;
-
-    /* Add 10px padding to the menu */
-}
-
-nav {
-    margin-top: 10px;
-    text-align: center;
-
-    /* Center align the navigation */
-    height: fit-content;
-    flex-flow: column;
-    justify-items: center;
-    width: 100%;
-}
-
-a {
-    margin-top: 20px;
-    font-size: 1.3em;
-    font-family: "Source Sans Pro", sans-serif;
-}
-
-nav a {
-    border-radius: 80px;
-    display: inline-block;
-    height: fit-content;
-    color: #933420;
-
-    /* Using the sunset color */
-    text-decoration: none;
-    font-family: "Sofia Pro", serif;
-    text-align: center;
-    padding: 5px 15px;
-
-    /* Equal padding on top/bottom and left/right */
-    background-color: #ffe6bd;
-
-    /* Using the butterscotch color */
-    position: relative;
-    margin: 0 20px;
-
-    /* Add some margin between menu items */
-}
-
-nav a:hover {
-    background-color: #933420;
-
-    /* Using the asparagus color */
-    color: #e38e40;
-
-    /* Using the burnt-umber color */
-}
-
 /* Style the main section */
 section {
     padding: 20px;
@@ -132,17 +73,6 @@ section {
     box-shadow: 0 0 20px 9px #e38e40;
 
     /* Add glow effect */
-}
-
-h1 {
-    font-size: 7em;
-}
-
-h2 {
-    margin-top: -17px;
-    font-size: 2em;
-    text-align: center;
-    font-weight: 400;
 }
 
 .btn {

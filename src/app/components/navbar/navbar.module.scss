@@ -1,0 +1,27 @@
+@mixin nav-item {
+    @apply rounded-md px-3 py-2 text-sm font-medium hover:bg-highlight-light hover:dark:bg-highlight-dark;
+}
+
+.current-nav-item {
+    @include nav-item;
+
+    @apply bg-highlight-light dark:bg-highlight-dark;
+}
+
+.nav-item {
+    @include nav-item;
+}
+
+@mixin nav-drop-item {
+    @apply w-full rounded-md px-3 py-2 text-sm font-medium hover:bg-highlight-light hover:dark:bg-highlight-dark;
+}
+
+.current-nav-drop-item {
+    @include nav-drop-item;
+
+    @apply bg-highlight-light dark:bg-highlight-dark;
+}
+
+.nav-drop-item {
+    @include nav-drop-item;
+}

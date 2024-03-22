@@ -16,8 +16,9 @@
     --text-color: #2b2d42;
     --background-color: theme("colors.background.light");
     --farground-color: theme("colors.farground.light"); // Color of entire page
-    --input-color: hsl(330deg 12% 97%);
-    --shadow-color: #bebebe;
+    --input-color: #f8f6f7;
+    --shadow-color: theme("colors.shadow.light");
+    --highlight-color: theme("colors.highlight.light");
 
     /* Font and Typography */
     --regular-weight: 500;
@@ -35,7 +36,8 @@
         --background-color: theme("colors.background.dark");
         --farground-color: theme("colors.farground.dark");
         --text-color: #fff;
-        --shadow-color: #050505;
+        --shadow-color: theme("colors.shadow.dark");
+        --highlight-color: theme("colors.highlight.dark");
     }
 }
 
@@ -126,8 +128,6 @@ body {
     width: 95vw;
     height: 95vh;
     display: flex;
-    align-items: stretch;
-    justify-content: center;
     background: var(--background-color);
     overflow: hidden;
     border-radius: 1rem;

@@ -18,6 +18,14 @@ module.exports = {
                 farground: {
                     light: "rgb(255 255 255 / <alpha-value>)",
                     dark: "rgb(14 14 18 / <alpha-value>)"
+                },
+                shadow: {
+                    light: "rgb(190 190 190 / <alpha-value>)",
+                    dark: "rgb(5 5 5 / <alpha-value>)"
+                },
+                highlight: {
+                    light: "rgb(235 235 235 / <alpha-value>)",
+                    dark: "rgb(45 44 53 / <alpha-value>)"
                 }
             }
         }
