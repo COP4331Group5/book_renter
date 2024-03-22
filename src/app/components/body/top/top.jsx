@@ -16,23 +16,12 @@ const Top = () => {
         <div>
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-4xl">Welcome to Novel Nest.</h1>
-                    <br />
-                    <p>Happy reading, Gabby!</p>
+                    <h1 className="text-4xl">Happy reading, Gabby!</h1>
                 </div>
 
                 <div id={styles["search-bar"]}>
                     <input type="text" placeholder="Search Dashboard" />
                     <BiSearchAlt id={styles["search-icon"]} />
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <MdOutlineNotificationsNone className="icon" />
-                    <Image
-                        id={styles["admin-image"]}
-                        src={img}
-                        alt="Admin Image"
-                    />
                 </div>
             </div>
 
