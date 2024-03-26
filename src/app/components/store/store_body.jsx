@@ -17,8 +17,8 @@ export default function StoreBody() {
             if (allbooks) {
                 return true;
             } else {
-                if (fiction && book.book_type === "Fiction") return true;
-                if (nonfiction && book.book_type === "Nonfiction") return true;
+                if (fiction && book.bookType === "Fiction") return true;
+                if (nonfiction && book.bookType === "Nonfiction") return true;
                 if (bseller && book.bestseller) return true;
 
                 return false;
