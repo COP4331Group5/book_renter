@@ -13,7 +13,7 @@ export default function StoreBody() {
     const [filteredBooks, setFilteredBooks] = useState([]);
 
     useEffect(() => {
-        let filtered = bookData.filter(book => {
+        let filtered = bookData.filter((book) => {
             if (allbooks) {
                 return true;
             } else {
@@ -29,30 +29,53 @@ export default function StoreBody() {
     }, [allbooks, fiction, nonfiction, bseller]);
 
     return (
-        <div className="flex flex-row h-full w-full max-w-6xl mx-auto overflow-y-auto">
-            <div className="flex flex-col flex-shrink-0 w-[200px] h-fit my-2 ml-2 p-2 rounded-md bg-gray-800">
+        <div className="mx-auto flex h-full w-full max-w-6xl flex-row overflow-y-auto">
+            <div className="my-2 ml-2 flex h-fit w-[200px] flex-shrink-0 flex-col rounded-md bg-gray-800 p-2">
                 <h2>Filters</h2>
                 <div className="flex flex-row gap-2">
-                    <input type="checkbox" name="allbooks" onChange={(e) => setAllBooks(e.target.checked)} defaultChecked />
+                    <input
+                        type="checkbox"
+                        name="allbooks"
+                        onChange={(e) => setAllBooks(e.target.checked)}
+                        defaultChecked
+                    />
                     <p>All Books</p>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="checkbox" name="fiction" onChange={(e) => setFiction(e.target.checked)} disabled={allbooks} defaultChecked />
+                    <input
+                        type="checkbox"
+                        name="fiction"
+                        onChange={(e) => setFiction(e.target.checked)}
+                        disabled={allbooks}
+                        defaultChecked
+                    />
                     <p>Fiction</p>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="checkbox" name="nonfiction" onChange={(e) => setNonFiction(e.target.checked)} disabled={allbooks} defaultChecked />
+                    <input
+                        type="checkbox"
+                        name="nonfiction"
+                        onChange={(e) => setNonFiction(e.target.checked)}
+                        disabled={allbooks}
+                        defaultChecked
+                    />
                     <p>Non-Fiction</p>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="checkbox" name="bseller" onChange={(e) => setBSeller(e.target.checked)} disabled={allbooks} defaultChecked />
+                    <input
+                        type="checkbox"
+                        name="bseller"
+                        onChange={(e) => setBSeller(e.target.checked)}
+                        disabled={allbooks}
+                        defaultChecked
+                    />
                     <p>Best Sellers</p>
                 </div>
             </div>
             <div className="flex flex-row flex-wrap overflow-auto">
-                {
-                    filteredBooks.map((book, i) => <BookCard key={i} data={book} />)
-                }
+                {filteredBooks.map((book, i) => (
+                    <BookCard key={i} data={book} />
+                ))}
             </div>
         </div>
     );

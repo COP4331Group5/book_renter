@@ -11,5 +11,5 @@ export default function Store() {
             <NavBar />
             <StoreBody />
         </div>
-    )
+    );
 }
