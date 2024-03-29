@@ -1,0 +1,33 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    width: 82%;
+    height: 100%;
+    padding: 1.5rem;
+    overflow: auto;
+
+    .submit {
+        background-color: #f8f9fa;
+        box-shadow: gray 0 1px 1px;
+        border: 1px solid #f8f9fa;
+        border-radius: 4px;
+        color: #3c4043;
+        cursor: pointer;
+        height: 30px;
+        line-height: 27px;
+        width: 100px;
+        padding: 0 16px;
+        text-align: center;
+        user-select: none;
+        touch-action: manipulation;
+        white-space: pre;
+    }
+
+    .submit:hover {
+        border-color: #dadce0;
+        box-shadow: gray 0 1px 1px;
+        color: #202124;
+    }
+}
