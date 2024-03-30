@@ -1,0 +1,11 @@
+@use "button";
+
+.submit-btn {
+    @include button.button;
+
+    width: 100%;
+
+    &:hover {
+        outline: var(--text-color) 1px solid;
+    }
+}
