@@ -4,7 +4,7 @@ import NavBar from "@components/navbar/navbar";
 
 export default function Page() {
     return (
-        <div class="container flex-col">
+        <div className="container flex-col">
             <NavBar />
             <div className="img-container">
                 <div className="inner-container">
