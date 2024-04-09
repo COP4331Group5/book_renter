@@ -17,23 +17,40 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
+CREATE TYPE pdf_status_value AS ENUM ('processing', 'completed', 'failed');
+
 -- This is where statements for initializing the database go.
 CREATE TABLE books (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(128) NOT NULL,
-    author VARCHAR(128) NOT NULL,
-    file_path TEXT NOT NULL
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(128) NOT NULL,
+  author VARCHAR(128) NOT NULL,
+  pdf_status pdf_status_value NOT NULL,
+  blob_name TEXT NOT NULL
 );
 
+CREATE TABLE images (
+  id SERIAL PRIMARY KEY,
+  book_id INT NOT NULL,
+  page_num INT NOT NULL,
+  slice_num INT NOT NULL,
+  blob_name TEXT NOT NULL,
+  CONSTRAINT fk_book
+    FOREIGN KEY(book_id)
+      REFERENCES books(book_id)
+)
+
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(254) UNIQUE,
-    display VARCHAR(80), 
-    passhash VARCHAR(100)
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(254) UNIQUE,
+  display VARCHAR(80), 
+  passhash VARCHAR(100)
 );
 
 CREATE TABLE sessions (
-    id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
-    user_id INT,
-    created TIMESTAMPTZ DEFAULT clock_timestamp()
+  id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
+  user_id INT,
+  created TIMESTAMPTZ DEFAULT clock_timestamp(),
+  CONSTRAINT fk_user
+    FOREIGN KEY(user_id)
+      REFERENCES users(user_id)
 );
