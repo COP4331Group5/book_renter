@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Maybe, tryPromise } from "@/lib/fp";
 import { beginProcessPdf } from "@/lib/pp";
+import { cookies } from "next/headers";
 import sql from "@/lib/sql";
 import { ulid } from "ulid";
 const { ContainerClient } = require("@azure/storage-blob");
@@ -14,6 +15,65 @@ const containerClient = new ContainerClient(sasUri);
  * @returns {NextResponse}
  */
 export async function POST(request) {
+    const cookieStore = cookies();
+
+    /** @type {Maybe<RequestCookie>} */
+    const sessionToken = new Maybe(cookieStore.get("session"));
+
+    if (sessionToken.isNone) {
+        return Response.json(
+            {
+                error: "MissingSessionToken",
+                message: "the request headers didn't have session token"
+            },
+            { status: 401 }
+        );
+    }
+
+    const session = sessionToken.map((x) => x.value).unwrap();
+
+    let selectUserResult = (
+        await tryPromise(
+            sql`SELECT user_id FROM sessions WHERE id = ${session}`
+        )
+    ).map((rows) => rows[0].user_id);
+
+    if (selectUserResult.isErr) {
+        return Response.json(
+            {
+                error: "InvalidSessionToken",
+                message: "the session token doesn't exist"
+            },
+            { status: 401 }
+        );
+    }
+
+    let userId = selectUserResult.unwrap();
+
+    let selectAdminResult = (
+        await tryPromise(sql`SELECT is_admin FROM users WHERE id = ${userId}`)
+    ).map((rows) => rows[0].is_admin);
+
+    if (selectAdminResult.isErr) {
+        return Response.json(
+            {
+                error: "InternalError",
+                message: "issue resolving user"
+            },
+            { status: 500 }
+        );
+    }
+
+    if (selectAdminResult.unwrap() !== true) {
+        return Response.json(
+            {
+                error: "NotAuthorized",
+                message: "the user is not an admin"
+            },
+            { status: 401 }
+        );
+    }
+
     const data = await request.formData();
     /** @type {Maybe<File>} */
     const file = new Maybe(data.get("file"));
@@ -34,8 +94,23 @@ export async function POST(request) {
         );
     }
 
+    if (
+        title.unwrap().length > 128 ||
+        title.unwrap().length < 1 ||
+        author.unwrap().length > 128 ||
+        author.unwrap().length < 1
+    ) {
+        return Response.json(
+            {
+                error: "BadFieldLayout",
+                message: "the request form fields were invalid"
+            },
+            { status: 400 }
+        );
+    }
+
     const bytes = await file.unwrap().arrayBuffer();
-    const name = `${ulid()}_${filename}`;
+    const name = `${ulid()}_${filename.unwrap()}`;
 
     const blobClient = containerClient.getBlockBlobClient(name);
     // TODO: Change to tryPromise
@@ -73,7 +148,17 @@ export async function POST(request) {
         );
     }
 
-    beginProcessPdf(name);
+    const started = await beginProcessPdf(createBookResult.unwrap());
+
+    if (!started) {
+        return Response.json(
+            {
+                error: "BookProcessingFailed",
+                message: "could not start processing the book"
+            },
+            { status: 500 }
+        );
+    }
 
     return Response.json({}, { status: 200 });
 }

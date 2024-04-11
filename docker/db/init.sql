@@ -19,6 +19,8 @@ $$ LANGUAGE plpgsql VOLATILE;
 
 CREATE TYPE pdf_status_value AS ENUM ('processing', 'completed', 'failed');
 
+CREATE TYPE rental_length_value as ENUM ('1', '2', '3')
+
 -- This is where statements for initializing the database go.
 CREATE TABLE books (
   id SERIAL PRIMARY KEY,
@@ -33,24 +35,27 @@ CREATE TABLE images (
   book_id INT NOT NULL,
   page_num INT NOT NULL,
   slice_num INT NOT NULL,
-  blob_name TEXT NOT NULL,
-  CONSTRAINT fk_book
-    FOREIGN KEY(book_id)
-      REFERENCES books(book_id)
-)
+  blob_name TEXT NOT NULL
+);
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
+  is_admin BOOLEAN NOT NULL,
   email VARCHAR(254) UNIQUE,
-  display VARCHAR(80), 
+  display VARCHAR(80),
   passhash VARCHAR(100)
 );
 
+CREATE TABLE rentals (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  rental_length rental_length_value NOT NULL,
+  created TIMESTAMPTZ DEFAULT clock_timestamp()
+)
+
 CREATE TABLE sessions (
   id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
-  user_id INT,
-  created TIMESTAMPTZ DEFAULT clock_timestamp(),
-  CONSTRAINT fk_user
-    FOREIGN KEY(user_id)
-      REFERENCES users(user_id)
+  user_id INT NOT NULL,
+  created TIMESTAMPTZ DEFAULT clock_timestamp()
 );
