@@ -19,7 +19,7 @@ $$ LANGUAGE plpgsql VOLATILE;
 
 CREATE TYPE pdf_status_value AS ENUM ('processing', 'completed', 'failed');
 
-CREATE TYPE rental_length_value as ENUM ('1', '2', '3')
+CREATE TYPE rental_length_value as ENUM ('1', '2', '3');
 
 -- This is where statements for initializing the database go.
 CREATE TABLE books (
