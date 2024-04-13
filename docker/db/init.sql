@@ -52,7 +52,7 @@ CREATE TABLE rentals (
   book_id INT NOT NULL,
   rental_length rental_length_value NOT NULL,
   created TIMESTAMPTZ DEFAULT clock_timestamp()
-)
+);
 
 CREATE TABLE sessions (
   id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
