@@ -1,5 +1,8 @@
 FROM buildpack-deps:mantic as base
 
+RUN apt-get update \
+ && apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev -qqy
+
 # install git lfs
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
   && apt-get install git-lfs -qqy
