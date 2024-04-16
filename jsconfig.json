@@ -4,8 +4,6 @@
             "@/*": ["./src/*"],
             "@components/*": ["./src/app/components/*"],
             "@public/*": ["./public/*"]
-        },
-        "target": "ESNext",
-        "module": "CommonJS"
+        }
     }
 }

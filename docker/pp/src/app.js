@@ -56,11 +56,6 @@ function beginProcessing(id) {
             sql`UPDATE books SET pdf_status = 'failed' WHERE id = ${id}`.catch(
                 (e) => console.error(e)
             );
-        } else {
-            console.error(`Worker succeeded`);
-            sql`UPDATE books SET pdf_status = 'completed' WHERE id = ${id}`.catch(
-                (e) => console.error(e)
-            );
         }
     });
 }

@@ -68,6 +68,16 @@ export class Maybe {
         return this.isNone ? None : fn(this.#value) ? Some(this.#value) : None;
     }
 
+    /**
+     * Maps and filters the container value.
+     * @template A
+     * @param {(x: T) => Maybe<A>} fn
+     * @returns {Maybe<A>}
+     */
+    mapFilter(fn) {
+        return this.isNone ? None : fn(this.#value);
+    }
+
     unwrap() {
         if (this.isNone) {
             throw new Error(`${typeof this} is 'None'`);
@@ -161,6 +171,16 @@ export class Result {
                       (this.#value)
                   )
               );
+    }
+
+    /**
+     * Maps and filters the container value.
+     * @template A
+     * @param {(x: T) => Result<A, E>} fn
+     * @returns {Result<A, E>}
+     */
+    mapFilter(fn) {
+        return this.isErr ? this : fn(this.#value);
     }
 
     /**

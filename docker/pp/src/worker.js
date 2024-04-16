@@ -4,7 +4,7 @@ import sql from "./sql.js";
 import { tryPromise } from "./fp.js";
 import { PDFDocument } from "pdf-lib";
 import { readFile } from "node:fs/promises";
-import * as pdfjsLib from "pdfjs-dist";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import Canvas from "canvas";
 
 async function main() {
@@ -68,7 +68,7 @@ async function main() {
 
     console.log(`Number of pages: ${watermarkedPdf.numPages}`);
 
-    const SLICE_SIZE = 5;
+    const SLICE_SIZE = 64;
     for (let i = 1; i < watermarkedPdf.numPages + 1; i++) {
         let page = await watermarkedPdf.getPage(i);
 
@@ -82,7 +82,28 @@ async function main() {
 
         await page.render({ canvasContext: context, viewport }).promise;
 
-        for (let y = 0; y < Math.ceil(canvas.height / SLICE_SIZE); y++) {
+        let minPages = Math.floor(canvas.height / SLICE_SIZE);
+
+        const pageInfo = {
+            "book_id": id,
+            "page_num": i,
+            "slice_count": minPages + 1
+        };
+
+        const createPageResult = await tryPromise(
+            sql`INSERT INTO pages ${sql(
+                pageInfo,
+                "book_id",
+                "page_num",
+                "slice_count"
+            )}`
+        );
+
+        if (createPageResult.isErr) {
+            throw new Error("could not create page");
+        }
+
+        for (let y = 0; y < minPages; y++) {
             const newCanvas = Canvas.createCanvas(canvas.width, SLICE_SIZE);
             const newContext = newCanvas.getContext("2d");
 
@@ -98,12 +119,14 @@ async function main() {
                 newCanvas.height
             );
 
-            const sliceBytes = newCanvas.toBuffer("image/png");
+            const sliceBytes = newCanvas.toBuffer("image/jpeg", {
+                quality: 0.7
+            });
             const sliceBlobName = `${String(id).padStart(6, "0")}_${String(i).padStart(6, "0")}_${String(y).padStart(6, "0")}`;
             const sliceBlobClient =
                 containerClient.getBlockBlobClient(sliceBlobName);
             await sliceBlobClient.uploadData(sliceBytes, {
-                blobHTTPHeaders: { blobContentType: "image/png" }
+                blobHTTPHeaders: { blobContentType: "image/jpg" }
             });
 
             const image = {
@@ -127,7 +150,59 @@ async function main() {
                 throw new Error("Could not create image");
             }
         }
+
+        const leftover = canvas.height % SLICE_SIZE;
+        if (leftover != 0) {
+            const newCanvas = Canvas.createCanvas(canvas.width, leftover);
+            const newContext = newCanvas.getContext("2d");
+
+            newContext.drawImage(
+                canvas,
+                0,
+                minPages * SLICE_SIZE,
+                canvas.width,
+                leftover,
+                0,
+                0,
+                newCanvas.width,
+                newCanvas.height
+            );
+
+            const sliceBytes = newCanvas.toBuffer("image/png");
+            const sliceBlobName = `${String(id).padStart(6, "0")}_${String(i).padStart(6, "0")}_${String(minPages).padStart(6, "0")}`;
+            const sliceBlobClient =
+                containerClient.getBlockBlobClient(sliceBlobName);
+            await sliceBlobClient.uploadData(sliceBytes, {
+                blobHTTPHeaders: { blobContentType: "image/png" }
+            });
+
+            const image = {
+                "book_id": id,
+                "page_num": i,
+                "slice_num": minPages,
+                "blob_name": sliceBlobName
+            };
+
+            const createImageResult = await tryPromise(
+                sql`INSERT INTO images ${sql(
+                    image,
+                    "book_id",
+                    "page_num",
+                    "slice_num",
+                    "blob_name"
+                )}`
+            );
+
+            if (createImageResult.isErr) {
+                throw new Error("Could not create image");
+            }
+        }
     }
+
+    console.error(`Worker succeeded`);
+    await sql`UPDATE books SET pdf_status = 'completed', num_pages = ${watermarkedPdf.numPages} WHERE id = ${id}`.catch(
+        (e) => console.error(e)
+    );
 }
 
 main()

@@ -4,7 +4,7 @@ import { beginProcessPdf } from "@/lib/pp";
 import { cookies } from "next/headers";
 import sql from "@/lib/sql";
 import { ulid } from "ulid";
-const { ContainerClient } = require("@azure/storage-blob");
+import { ContainerClient } from "@azure/storage-blob";
 
 const sasUri = process.env.SAS_URI;
 const containerClient = new ContainerClient(sasUri);
@@ -122,7 +122,8 @@ export async function POST(request) {
         "title": title.unwrap(),
         "author": author.unwrap(),
         "blob_name": name,
-        "pdf_status": "processing"
+        "pdf_status": "processing",
+        "num_pages": 0
     };
 
     let createBookResult = (
@@ -132,7 +133,8 @@ export async function POST(request) {
                 "title",
                 "author",
                 "blob_name",
-                "pdf_status"
+                "pdf_status",
+                "num_pages"
             )} RETURNING id`
         )
     ).map((rows) => rows[0].id);
