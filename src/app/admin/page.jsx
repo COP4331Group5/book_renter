@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import AdminBody from "../components/admin/admin_body";
-import { Maybe, tryPromise } from "@/lib/fp";
+import { Maybe, Some, None, tryPromise } from "@/lib/fp";
 import sql from "@/lib/sql";
 
 export default async function Admin() {
@@ -21,9 +21,17 @@ export default async function Admin() {
         await tryPromise(
             sql`SELECT user_id FROM sessions WHERE id = ${session}`
         )
-    ).map((rows) => rows[0].user_id);
+    )
+        .ok()
+        .mapFilter((rows) => {
+            if (rows.length < 1) {
+                return None;
+            }
 
-    if (selectSessionResult.isErr) {
+            return Some(rows[0].user_id);
+        });
+
+    if (selectSessionResult.isNone) {
         redirect("/login");
     }
 
@@ -31,9 +39,17 @@ export default async function Admin() {
         await tryPromise(
             sql`SELECT is_admin FROM users WHERE id = ${selectSessionResult.unwrap()}`
         )
-    ).map((rows) => rows[0].is_admin);
+    )
+        .ok()
+        .mapFilter((rows) => {
+            if (rows.length < 1) {
+                return None;
+            }
 
-    if (selectUserResult.isErr || !selectUserResult.unwrap()) {
+            return Some(rows[0].is_admin);
+        });
+
+    if (selectUserResult.isNone || !selectUserResult.unwrap()) {
         redirect("/login");
     }
 

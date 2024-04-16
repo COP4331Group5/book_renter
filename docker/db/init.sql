@@ -27,7 +27,15 @@ CREATE TABLE books (
   title VARCHAR(128) NOT NULL,
   author VARCHAR(128) NOT NULL,
   pdf_status pdf_status_value NOT NULL,
-  blob_name TEXT NOT NULL
+  blob_name TEXT NOT NULL,
+  num_pages INT NOT NULL
+);
+
+CREATE TABLE pages (
+  id SERIAL PRIMARY KEY,
+  book_id INT NOT NULL,
+  page_num INT NOT NULL,
+  slice_count INT NOT NULL
 );
 
 CREATE TABLE images (
@@ -51,11 +59,12 @@ CREATE TABLE rentals (
   user_id INT NOT NULL,
   book_id INT NOT NULL,
   rental_length rental_length_value NOT NULL,
-  created TIMESTAMPTZ DEFAULT clock_timestamp()
+  created TIMESTAMPTZ DEFAULT NOW()
+  -- TODO: add expry value to sort by
 );
 
 CREATE TABLE sessions (
   id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
   user_id INT NOT NULL,
-  created TIMESTAMPTZ DEFAULT clock_timestamp()
+  created TIMESTAMPTZ DEFAULT NOW()
 );
