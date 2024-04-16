@@ -12,7 +12,7 @@ import img6 from "@public/assets/classics/img5.jpg";
 
 export default function Listing() {
     return (
-        <div className="basis-3/4">
+        <div className="basis-full">
             <div className="flex items-center justify-between">
                 <h1>My Library</h1>
                 <SeeAllBtn href="/library" />
@@ -37,6 +37,11 @@ export default function Listing() {
                 <CoverBtn
                     name="Little Women"
                     img="/assets/classics/img4.jpg"
+                    link="#"
+                />
+                <CoverBtn
+                    name="Of Mice and Men"
+                    img="/assets/classics/img2.jpg"
                     link="#"
                 />
             </div>

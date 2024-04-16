@@ -1,0 +1,22 @@
+{
+    "name": "pp",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/app.js",
+    "type": "module",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@azure/storage-blob": "^12.17.0",
+        "canvas": "^2.11.2",
+        "express": "^4.19.2",
+        "image-clipper": "^0.4.4",
+        "pdf-lib": "^1.17.1",
+        "pdfjs-dist": "^4.0.379",
+        "postgres": "^3.4.4"
+    }
+}

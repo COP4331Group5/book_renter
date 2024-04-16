@@ -135,7 +135,8 @@ export async function POST(request) {
     let user = {
         email: form.email,
         display: form.display,
-        passhash: passhash.unwrap()
+        passhash: passhash.unwrap(),
+        "is_admin": false
     };
 
     let createUserResult = (
@@ -144,7 +145,8 @@ export async function POST(request) {
                 user,
                 "email",
                 "display",
-                "passhash"
+                "passhash",
+                "is_admin"
             )} RETURNING id`
         )
     ).map((rows) => rows[0].id);

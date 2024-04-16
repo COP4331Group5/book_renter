@@ -1,9 +1,5 @@
 FROM buildpack-deps:mantic as base
 
-# install git lfs
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
-  && apt-get install git-lfs -qqy
-
 ENV NODE_VERSION=20.10.0
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -50,9 +46,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   # install pnpm
   && corepack enable \
   && corepack prepare pnpm@8.14.3 --activate \
-  && pnpm --version \
-  # install turbo
-  && pnpm install turbo --global
+  && pnpm --version
 
 WORKDIR /srv
 
@@ -66,8 +60,8 @@ FROM base as app
 
 COPY . /srv
 
-CMD "pnpm run start"
+CMD ["node", "src/app.js"]
 
 FROM base as dev
 
-CMD [ "bash" ]
+CMD ["node", "src/app.js"]

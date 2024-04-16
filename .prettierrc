@@ -1,6 +1,7 @@
 {
     "trailingComma": "none",
     "tabWidth": 4,
+    "quoteProps": "preserve",
     "plugins": ["prettier-plugin-tailwindcss"],
     "overrides": [
         {

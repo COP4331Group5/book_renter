@@ -28,15 +28,13 @@ services:
       - /srv/node_modules
       - /srv/.next
       - /srv/.turbo
-    networks:
-      - default
-      - db_net
   db:
     build:
       context: .
       dockerfile: docker/db/Dockerfile
     restart: always
     user: postgres
+    # command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
@@ -46,22 +44,10 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
-    networks:
-      db_net:
-        ipv4_address: 172.20.0.2
     ports:
       - "5432:5432"
     volumes:
       - "database:/var/lib/postgresql/data"
-  fs:
-    build:
-      context: .
-      dockerfile: docker/fs/Dockerfile
-    restart: always
-    ports:
-      - "2000:2000"
-    volumes:
-      - "fileserver:/srv"
   db_gui:
     build: docker/db_gui
     restart: always
@@ -72,15 +58,21 @@ services:
       PGADMIN_SERVER_JSON_FILE: "/etc/pgadmin/servers.json"
     ports:
       - "4000:4000"
-    networks:
-      - default
-      - db_net
+  pp_dev:
+    build:
+      context: ./docker/pp/
+      dockerfile: Dockerfile
+      target: dev
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docker/pp:/srv
+      - /srv/.pnpm-store
+      - /srv/node_modules
+      - /srv/.next
+      - /srv/.turbo
 volumes:
   database:
   fileserver:
-networks:
-  db_net:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/16
