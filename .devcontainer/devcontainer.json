@@ -2,7 +2,7 @@
     "name": "book_renter_dev",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "dev",
-    "runServices": ["dev", "db", "db_gui", "fs"],
+    "runServices": ["dev", "db", "db_gui", "pp_dev"],
     "workspaceFolder": "/srv",
     "initializeCommand": "echo 'Started dev container...'",
     "postStartCommand": "git lfs install",

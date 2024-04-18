@@ -17,23 +17,54 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
+CREATE TYPE pdf_status_value AS ENUM ('processing', 'completed', 'failed');
+
+CREATE TYPE rental_length_value as ENUM ('1', '2', '3');
+
 -- This is where statements for initializing the database go.
 CREATE TABLE books (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(128) NOT NULL,
-    author VARCHAR(128) NOT NULL,
-    file_path TEXT NOT NULL
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(128) NOT NULL,
+  author VARCHAR(128) NOT NULL,
+  pdf_status pdf_status_value NOT NULL,
+  blob_name TEXT NOT NULL,
+  num_pages INT NOT NULL
+);
+
+CREATE TABLE pages (
+  id SERIAL PRIMARY KEY,
+  book_id INT NOT NULL,
+  page_num INT NOT NULL,
+  slice_count INT NOT NULL
+);
+
+CREATE TABLE images (
+  id SERIAL PRIMARY KEY,
+  book_id INT NOT NULL,
+  page_num INT NOT NULL,
+  slice_num INT NOT NULL,
+  blob_name TEXT NOT NULL
 );
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(254) UNIQUE,
-    display VARCHAR(80), 
-    passhash VARCHAR(100)
+  id SERIAL PRIMARY KEY,
+  is_admin BOOLEAN NOT NULL,
+  email VARCHAR(254) UNIQUE,
+  display VARCHAR(80),
+  passhash VARCHAR(100)
+);
+
+CREATE TABLE rentals (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  rental_length rental_length_value NOT NULL,
+  created TIMESTAMPTZ DEFAULT NOW()
+  -- TODO: add expry value to sort by
 );
 
 CREATE TABLE sessions (
-    id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
-    user_id INT,
-    created TIMESTAMPTZ DEFAULT clock_timestamp()
+  id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
+  user_id INT NOT NULL,
+  created TIMESTAMPTZ DEFAULT NOW()
 );

@@ -1,0 +1,1 @@
+00 12 * * * psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL DELETE FROM sessions WHERE created < now() - interval '1 week'; EOSQL

@@ -10,17 +10,11 @@ const toggleBtn = styles["toggle-btn"];
 const textInput = styles["text-input"];
 const submitBtn = styles["submit-btn"];
 
-/** @type {Dispatch<string>} */
-let setErrorMessage;
-
 export default function AuthForm() {
     let toggleBtnBgRef = useRef();
 
     const [showLoginForm, setShowLoginForm] = useState(true);
-    const errorMessageState = useState(null);
-
-    const errorMessage = errorMessageState[0];
-    setErrorMessage = errorMessageState[1];
+    const [errorMessage, setErrorMessage] = useState(null);
 
     function toggleLogin() {
         /** @type {HTMLButtonElement} */
@@ -56,13 +50,17 @@ export default function AuthForm() {
                     <span>Sign Up</span>
                 </button>
             </div>
-            {showLoginForm ? <LoginForm /> : <SignupForm />}
+            {showLoginForm ? (
+                <LoginForm setErrorMessage={setErrorMessage} />
+            ) : (
+                <SignupForm setErrorMessage={setErrorMessage} />
+            )}
             {errorMessage ? <ErrorMessage message={errorMessage} /> : null}
         </div>
     );
 }
 
-function LoginForm() {
+function LoginForm({ setErrorMessage }) {
     let formRef = useRef();
     let emailRef = useRef();
     let passwordRef = useRef();
@@ -155,7 +153,7 @@ function LoginForm() {
     );
 }
 
-function SignupForm() {
+function SignupForm({ setErrorMessage }) {
     let formRef = useRef();
     let emailRef = useRef();
     let displayRef = useRef();

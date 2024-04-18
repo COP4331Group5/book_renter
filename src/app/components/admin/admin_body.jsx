@@ -1,49 +1,55 @@
-import React, { useState } from "react";
+"use client";
+import React, { useRef } from "react";
 import "./admin_body.scss";
 
 const AdminBody = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [bookTitle, setBookTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
-
-    const handleTitleChange = (event) => {
-        setBookTitle(event.target.value);
-    };
-
-    const handleAuthorChange = (event) => {
-        setAuthor(event.target.value);
-    };
-
-    const handleImageChange = (event) => {
-        setSelectedImage(event.target.files[0]);
-    };
+    /** @type {React.MutableRefObject<HTMLInputElement>} */
+    let fileFieldRef = useRef();
+    /** @type {React.MutableRefObject<HTMLInputElement>} */
+    let titleFieldRef = useRef();
+    /** @type {React.MutableRefObject<HTMLInputElement>} */
+    let authorFieldRef = useRef();
 
     const handleSubmit = () => {
-        if (!selectedFile) {
-            alert("Please select a file!");
-            return;
-        }
-        if (!selectedImage) {
-            alert("Please select a book cover image!");
+        let file = fileFieldRef.current.files[0];
+        let title = titleFieldRef.current.value;
+        let author = authorFieldRef.current.value;
+
+        if (!file || !title || !author) {
+            window.alert("Please fill out the fields");
             return;
         }
 
-        // implement logic to store to back-end
-        console.log("Selected File:", selectedFile);
-        console.log("Book Title:", bookTitle);
-        console.log("Author:", author);
-        console.log("Selected Cover Image:", selectedImage);
+        let formData = new FormData();
+        formData.set("file", file.slice());
+        formData.set("filename", file.name.split(".")[0]);
+        formData.set("title", title);
+        formData.set("author", author);
 
-        // reset states
-        setSelectedFile(null);
-        setBookTitle("");
-        setAuthor("");
-        setSelectedImage(null);
+        fetch("/api/v1/store/publish", {
+            method: "POST",
+            body: formData
+        })
+            .then((res) => {
+                if (res.status == 200) {
+                    location.reload();
+                } else {
+                    res.json()
+                        .then((x) => {
+                            window.alert(
+                                `Failed to upload book!\n${x.message}`
+                            );
+                        })
+                        .catch((_) => {
+                            window.alert(
+                                `Failed to upload book!\nUnknown Error!`
+                            );
+                        });
+                }
+            })
+            .catch((_) => {
+                window.alert(`Failed to upload book!\nNo response!`);
+            });
     };
 
     return (
@@ -51,23 +57,30 @@ const AdminBody = () => {
             <ul className="uploader">
                 <li>
                     <h2>PDF Book Uploader</h2>
-                    <input type="file" onChange={handleFileChange} />
-                </li>
-                <li>
-                    <h2>Book Cover Uploader</h2>
                     <input
+                        ref={fileFieldRef}
                         type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
+                        accept=".pdf,application/pdf"
+                        required
                     />
                 </li>
                 <li>
                     <h2>Book Title</h2>
-                    <input type="text" onChange={handleTitleChange} />
+                    <input
+                        className="text-black"
+                        ref={titleFieldRef}
+                        type="text"
+                        required
+                    />
                 </li>
                 <li>
                     <h2>Book Author</h2>
-                    <input type="text" onChange={handleAuthorChange} />
+                    <input
+                        className="text-black"
+                        ref={authorFieldRef}
+                        type="text"
+                        required
+                    />
                 </li>
             </ul>
             <button className="submit" onClick={handleSubmit}>
