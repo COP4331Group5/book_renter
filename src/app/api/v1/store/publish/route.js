@@ -5,9 +5,27 @@ import { cookies } from "next/headers";
 import sql from "@/lib/sql";
 import { ulid } from "ulid";
 import { ContainerClient } from "@azure/storage-blob";
+import { PDFDocument } from "pdf-lib";
 
 const sasUri = process.env.SAS_URI;
 const containerClient = new ContainerClient(sasUri);
+const sasCovers = process.env.SAS_COVERS;
+const coversClient = new ContainerClient(sasCovers);
+
+async function pdfToImage(pdfBytes) {
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const firstPage = pdfDoc.getPage(0); // Get the first page
+    const pngImage = await firstPage.asPng({ scale: 1.0 }); // Convert to PNG image
+
+    return pngImage;
+}
+
+async function uploadImage(imageBytes, imageName) {
+    const imageBlobClient = coversClient.getBlockBlobClient(imageName);
+    await imageBlobClient.uploadData(imageBytes, {
+        blobHTTPHeaders: { blobContentType: "image/png" }
+    });
+}
 
 /**
  * Publish a book.
@@ -117,11 +135,16 @@ export async function POST(request) {
     await blobClient.uploadData(bytes, {
         blobHTTPHeaders: { blobContentType: "application/pdf" }
     });
+    
+    const imageBytes = await pdfToImage(bytes);
+    const imageBlobName = `${ulid()}_cover.png`;
+    await uploadImage(imageBytes, imageBlobName);
 
     let book = {
         "title": title.unwrap(),
         "author": author.unwrap(),
         "blob_name": name,
+        "cover_image_name": imageBlobName,
         "pdf_status": "processing",
         "num_pages": 0
     };
@@ -133,6 +156,7 @@ export async function POST(request) {
                 "title",
                 "author",
                 "blob_name",
+                "cover_image_name",
                 "pdf_status",
                 "num_pages"
             )} RETURNING id`
@@ -164,3 +188,5 @@ export async function POST(request) {
 
     return Response.json({}, { status: 200 });
 }
+
+
