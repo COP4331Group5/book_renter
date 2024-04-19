@@ -6,17 +6,30 @@ import { useRef } from "react";
 
 import styles from "./account.module.scss";
 
-export default function UpdateEmailForm() {
+export default function UpdateEmailForm({ emailAddress }) {
     let emailRef = useRef();
     let submitBtn = styles["submit-btn"];
 
-    function change() {
-
+    function change(ev) {
+        ev.preventDefault();
+        const email = emailRef.current.value;
+        fetch("/api/v1/user/change_email", {
+            method: "POST",
+            body: JSON.stringify({
+                email: email
+            })
+        }).then((_) => {
+            location.reload();
+        });
     }
 
-    return <form className="w-fit rounded-lg p-4 bg-farground-light dark:bg-farground-dark flex flex-col items-center">
-        <h2>Change Email</h2><br />
-        <Field
+    return (
+        <form className="flex w-fit flex-col items-center rounded-lg bg-farground-light p-4 dark:bg-farground-dark">
+            <h2>Change Email</h2>
+            <br />
+            <p>Current Email: {emailAddress.value}</p>
+            <br />
+            <Field
                 ref={emailRef}
                 type="text"
                 placeholder="Email Address"
@@ -24,8 +37,9 @@ export default function UpdateEmailForm() {
                 expected="Please enter a valid email address"
                 required
             />
-        <button type="submit" className={submitBtn} onClick={change}>
+            <button type="submit" className={submitBtn} onClick={change}>
                 <h3>Change</h3>
-        </button>
-    </form>;
+            </button>
+        </form>
+    );
 }
