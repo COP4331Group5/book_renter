@@ -42,11 +42,13 @@ export class Maybe {
     /**
      * Runs a function on the contained value.
      * @param {(x: T) => void} fn Function to be called on the value.
+     * @returns {Maybe<T>}
      */
     inspect(fn) {
         if (this.isSome) {
             fn(this.#value);
         }
+        return this;
     }
 
     /**
@@ -201,6 +203,30 @@ export class Result {
     }
 
     /**
+     * Runs a function on the contained value.
+     * @param {(x: T) => void} fn Function to be called on the value.
+     * @returns {Result<T, E>}
+     */
+    inspect(fn) {
+        if (this.isOk) {
+            fn(this.#value);
+        }
+        return this;
+    }
+
+    /**
+     * Runs a function on the contained error value.
+     * @param {(x: E) => void} fn Function to be called on the value.
+     * @returns {Result<T, E>}
+     */
+    inspectErr(fn) {
+        if (this.isErr) {
+            fn(this.#value);
+        }
+        return this;
+    }
+
+    /**
      * @returns {T}
      */
     unwrap() {
@@ -225,6 +251,14 @@ export class Result {
      */
     unwrapUnchecked() {
         return this.#value;
+    }
+
+    /**
+     * @param {T} v
+     * @returns {T}
+     */
+    unwrapOr(v) {
+        return this.isOk ? this.#value : v;
     }
 
     /**

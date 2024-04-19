@@ -1,0 +1,12 @@
+#table {
+    @apply w-full border-collapse rounded-lg bg-farground-light dark:bg-farground-dark;
+
+    td,
+    th {
+        @apply border-t border-solid border-highlight-light p-4 text-left dark:border-highlight-dark;
+    }
+
+    tr:first-child th {
+        @apply border-t-0;
+    }
+}
