@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import bookData from "./book_data";
 import BookCard from "./book_card";
 
-export default function StoreBody() {
+export default function StoreBody({ books }) {
     const [allbooks, setAllBooks] = useState(true);
     const [fiction, setFiction] = useState(true);
     const [nonfiction, setNonFiction] = useState(true);
@@ -13,12 +12,12 @@ export default function StoreBody() {
     const [filteredBooks, setFilteredBooks] = useState([]);
 
     useEffect(() => {
-        let filtered = bookData.filter((book) => {
+        let filtered = books.filter((book) => {
             if (allbooks) {
                 return true;
             } else {
-                if (fiction && book.bookType === "Fiction") return true;
-                if (nonfiction && book.bookType === "Nonfiction") return true;
+                if (fiction && book.book_type === "Fiction") return true;
+                if (nonfiction && book.book_type === "Nonfiction") return true;
                 if (bseller && book.bestseller) return true;
 
                 return false;
@@ -30,7 +29,7 @@ export default function StoreBody() {
 
     return (
         <div className="mx-auto flex h-full w-full max-w-6xl flex-row overflow-y-auto">
-            <div className="my-2 ml-2 flex h-fit w-[200px] flex-shrink-0 flex-col rounded-md bg-gray-800 p-2">
+            <div className="my-2 ml-2 flex h-fit w-[200px] flex-shrink-0 flex-col rounded-md bg-gray-800 p-2 text-slate-300">
                 <h2>Filters</h2>
                 <div className="flex flex-row gap-2">
                     <input

@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import { useRef } from "react";
 import "./subscribe.scss";
 
 export default function SubscribeBody() {
+    const nameRef = useRef();
+
     function submitForm(event) {
         event.preventDefault();
         const form = event.target;

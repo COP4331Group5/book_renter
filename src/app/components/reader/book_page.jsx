@@ -15,7 +15,7 @@ export default function BookPage({ cache, pageId }) {
     }, [pageId, cache]);
 
     return (
-        <div>
+        <div className="page">
             {sliceUrls.map((e, i) => (
                 <PageSlice key={i} sliceUrl={e} />
             ))}

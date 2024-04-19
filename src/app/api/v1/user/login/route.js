@@ -81,7 +81,7 @@ export async function POST(request) {
 
     // Get the password hash.
     let userResult = await tryPromise(
-        sql`SELECT id, passhash FROM users WHERE email = ${form.email}`
+        sql`SELECT id, display, passhash FROM users WHERE email = ${form.email}`
     );
 
     if (userResult.isErr) {
@@ -99,14 +99,18 @@ export async function POST(request) {
         .ok()
         .filter((rows) => rows.length == 1)
         .map((rows) => {
-            return { userId: rows[0].id, passhash: rows[0].passhash };
+            return {
+                userId: rows[0].id,
+                display: rows[0].display,
+                passhash: rows[0].passhash
+            };
         });
 
     if (user.isNone) {
         return badCredentials.clone();
     }
 
-    let { userId, passhash } = user.unwrap();
+    let { userId, display, passhash } = user.unwrap();
 
     // Verify the password.
     let verifyResult = await tryPromise(argon2.verify(passhash, form.password));
@@ -143,7 +147,7 @@ export async function POST(request) {
     // Create the cookie headers.
     let headers = createSessionCookies(
         createSessionResult.unwrap(),
-        form.display,
+        display,
         form.email
     );
 

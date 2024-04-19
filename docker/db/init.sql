@@ -19,8 +19,6 @@ $$ LANGUAGE plpgsql VOLATILE;
 
 CREATE TYPE pdf_status_value AS ENUM ('processing', 'completed', 'failed');
 
-CREATE TYPE rental_length_value as ENUM ('1', '2', '3');
-
 -- This is where statements for initializing the database go.
 CREATE TABLE books (
   id SERIAL PRIMARY KEY,
@@ -28,7 +26,8 @@ CREATE TABLE books (
   author VARCHAR(128) NOT NULL,
   pdf_status pdf_status_value NOT NULL,
   blob_name TEXT NOT NULL,
-  num_pages INT NOT NULL
+  num_pages INT NOT NULL,
+  book_type VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE pages (
@@ -58,13 +57,13 @@ CREATE TABLE rentals (
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   book_id INT NOT NULL,
-  rental_length rental_length_value NOT NULL,
-  created TIMESTAMPTZ DEFAULT NOW()
-  -- TODO: add expry value to sort by
+  rental_length INT NOT NULL,
+  created TIMESTAMP DEFAULT NOW(),
+  expry TIMESTAMP GENERATED ALWAYS AS (created + (rental_length * INTERVAL '1 month')) STORED
 );
 
 CREATE TABLE sessions (
   id VARCHAR(22) PRIMARY KEY DEFAULT generate_uid(),
   user_id INT NOT NULL,
-  created TIMESTAMPTZ DEFAULT NOW()
+  created TIMESTAMP DEFAULT NOW()
 );
