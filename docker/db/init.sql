@@ -26,7 +26,8 @@ CREATE TABLE books (
   author VARCHAR(128) NOT NULL,
   pdf_status pdf_status_value NOT NULL,
   blob_name TEXT NOT NULL,
-  num_pages INT NOT NULL
+  num_pages INT NOT NULL,
+  book_type VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE pages (

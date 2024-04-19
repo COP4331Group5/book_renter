@@ -45,50 +45,6 @@ export default function Listing() {
                     link="#"
                 />
             </div>
-
-            <div id={styles.sellers}>
-                <div id={styles["top-authors"]}>
-                    <div className="flex items-center justify-between gap-4">
-                        <h3>Top Authors</h3>
-                        <SeeAllBtn href="#" />
-                    </div>
-
-                    <div className={styles.card}>
-                        <div className={styles.users}>
-                            <Image src={img4} alt="User Image" />
-                            <Image src={img5} alt="User Image" />
-                            <Image src={img6} alt="User Image" />
-                        </div>
-                        <div className={styles["card-text"]}>
-                            <span>
-                                2,600 Books Sold <br />
-                                <small>10 Authors</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id={styles["featured-authors"]}>
-                    <div className="flex items-center justify-between gap-4">
-                        <h3>Featured Authors</h3>
-                        <SeeAllBtn href="#" />
-                    </div>
-
-                    <div className={styles.card}>
-                        <div className={styles.users}>
-                            <Image src={img4} alt="User Image" />
-                            <Image src={img5} alt="User Image" />
-                            <Image src={img6} alt="User Image" />
-                        </div>
-                        <div className={styles["card-text"]}>
-                            <span>
-                                1,400 Books Sold <br />
-                                <small>10 Authors</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }

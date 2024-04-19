@@ -48,7 +48,7 @@ const Top = () => {
                         </div>
                     </div>
 
-                    <video src="/assets/video.mov" autoPlay loop muted></video>
+                    <video src="/assets/video.mp4" autoPlay loop muted></video>
                 </div>
 
                 <div className="flex basis-1/2 items-center">
