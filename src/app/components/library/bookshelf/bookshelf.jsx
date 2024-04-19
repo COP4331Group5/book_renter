@@ -26,7 +26,7 @@ export default async function Bookshelf() {
             <CoverBtn
                 key={i}
                 name={row.title}
-                img="https://placehold.co/400x600"
+                id={row.id}
                 href={`/read/${row.id}`}
             />
         ));

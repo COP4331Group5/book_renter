@@ -82,6 +82,17 @@ async function main() {
 
         await page.render({ canvasContext: context, viewport }).promise;
 
+        // Render cover
+        if (i == 1) {
+            const coverBytes = canvas.toBuffer("image/png");
+            const coverBlobName = `${String(id).padStart(6, "0")}_cover`;
+            const coverBlobClient =
+                containerClient.getBlockBlobClient(coverBlobName);
+            await coverBlobClient.uploadData(coverBytes, {
+                blobHTTPHeaders: { blobContentType: "image/png" }
+            });
+        }
+
         let minPages = Math.floor(canvas.height / SLICE_SIZE);
 
         const pageInfo = {
@@ -126,7 +137,7 @@ async function main() {
             const sliceBlobClient =
                 containerClient.getBlockBlobClient(sliceBlobName);
             await sliceBlobClient.uploadData(sliceBytes, {
-                blobHTTPHeaders: { blobContentType: "image/jpg" }
+                blobHTTPHeaders: { blobContentType: "image/jpeg" }
             });
 
             const image = {
@@ -168,12 +179,14 @@ async function main() {
                 newCanvas.height
             );
 
-            const sliceBytes = newCanvas.toBuffer("image/png");
+            const sliceBytes = newCanvas.toBuffer("image/jpeg", {
+                quality: 0.7
+            });
             const sliceBlobName = `${String(id).padStart(6, "0")}_${String(i).padStart(6, "0")}_${String(minPages).padStart(6, "0")}`;
             const sliceBlobClient =
                 containerClient.getBlockBlobClient(sliceBlobName);
             await sliceBlobClient.uploadData(sliceBytes, {
-                blobHTTPHeaders: { blobContentType: "image/png" }
+                blobHTTPHeaders: { blobContentType: "image/jpeg" }
             });
 
             const image = {

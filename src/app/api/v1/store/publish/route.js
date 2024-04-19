@@ -83,8 +83,16 @@ export async function POST(request) {
     const title = new Maybe(data.get("title"));
     /** @type {Maybe<string>} */
     const author = new Maybe(data.get("author"));
+    /** @type {Maybe<string>} */
+    const genre = new Maybe(data.get("genre"));
 
-    if (file.isNone || filename.isNone || title.isNone || author.isNone) {
+    if (
+        file.isNone ||
+        filename.isNone ||
+        title.isNone ||
+        author.isNone ||
+        genre.isNone
+    ) {
         return Response.json(
             {
                 error: "BadRequestForm",
@@ -98,7 +106,9 @@ export async function POST(request) {
         title.unwrap().length > 128 ||
         title.unwrap().length < 1 ||
         author.unwrap().length > 128 ||
-        author.unwrap().length < 1
+        author.unwrap().length < 1 ||
+        genre.unwrap().length > 128 ||
+        genre.unwrap().length < 1
     ) {
         return Response.json(
             {
@@ -123,7 +133,8 @@ export async function POST(request) {
         "author": author.unwrap(),
         "blob_name": name,
         "pdf_status": "processing",
-        "num_pages": 0
+        "num_pages": 0,
+        "book_type": genre.unwrap()
     };
 
     let createBookResult = (
@@ -134,7 +145,8 @@ export async function POST(request) {
                 "author",
                 "blob_name",
                 "pdf_status",
-                "num_pages"
+                "num_pages",
+                "book_type"
             )} RETURNING id`
         )
     ).map((rows) => rows[0].id);

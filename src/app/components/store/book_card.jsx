@@ -19,7 +19,7 @@ export default function BookCard({ data }) {
             </div>
             <div className="flex-grow" />
             <Link
-                href={"/login"}
+                href={`/rent?book=${data.id}`}
                 className="rounded-md bg-slate-600 p-2 text-sm text-slate-300"
             >
                 Rent Now
