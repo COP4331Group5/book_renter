@@ -1,4 +1,3 @@
-import Sidebar from "@components/sidebar/sidebar";
 import { TabBar, Tab } from "@components/tabbar/tabbar";
 import UpdateEmailForm from "./update_email";
 import BillingHistory from "./billing_history";
@@ -18,18 +17,15 @@ export default async function Account() {
     const emailAddress = cookieStore.get("email_address");
 
     return (
-        <div className="flex h-full w-full">
-            <Sidebar />
-            <div className="grow p-4">
-                <TabBar>
-                    <Tab name="Settings">
-                        <UpdateEmailForm emailAddress={emailAddress} />
-                    </Tab>
-                    <Tab name="Billing">
-                        <BillingHistory userId={session.userId} />
-                    </Tab>
-                </TabBar>
-            </div>
+        <div className="grow p-4">
+            <TabBar>
+                <Tab name="Settings">
+                    <UpdateEmailForm emailAddress={emailAddress} />
+                </Tab>
+                <Tab name="Billing">
+                    <BillingHistory userId={session.userId} />
+                </Tab>
+            </TabBar>
         </div>
     );
 }

@@ -1,4 +1,3 @@
-import NavBar from "../components/navbar/navbar";
 import StoreBody from "../components/store/store_body";
 
 export const metadata = {
@@ -6,10 +5,5 @@ export const metadata = {
 };
 
 export default function Store() {
-    return (
-        <div className="container flex-col">
-            <NavBar />
-            <StoreBody />
-        </div>
-    );
+    return <StoreBody />;
 }

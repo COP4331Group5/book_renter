@@ -10,22 +10,26 @@ import { BsArrowRightShort, BsQuestionCircle } from "react-icons/bs";
 // Imported images
 import img from "@public/assets/admin.jpg";
 import img2 from "@public/assets/classics/img6.jpg";
+import { cookies } from "next/headers";
 
 const Top = () => {
+    const cookieStore = cookies();
+    const displayName = cookieStore.get("display_name");
+
     return (
         <div>
             <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-4xl">Happy reading, Gabby!</h1>
-                </div>
+                <h1 className="text-4xl">
+                    Happy reading, {displayName.value}!
+                </h1>
 
-                <div id={styles["search-bar"]}>
+                {/* <div id={styles["search-bar"]}>
                     <input type="text" placeholder="Search Dashboard" />
                     <BiSearchAlt id={styles["search-icon"]} />
-                </div>
+                </div> */}
             </div>
 
-            <div className="mt-12 flex items-center gap-4">
+            <div className="mt-6 flex items-center gap-4">
                 <div id={styles["explore"]}>
                     <div className="z-10 text-white">
                         <h1>Explore our top sellers</h1>

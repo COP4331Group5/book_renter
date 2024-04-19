@@ -1,7 +1,6 @@
 import { Maybe, None, Some, tryPromise } from "@/lib/fp";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import Sidebar from "../../components/sidebar/sidebar";
 import PageReader from "../../components/reader/page_reader";
 import "../../components/reader/page_reader.scss";
 import sql from "@/lib/sql";
@@ -37,12 +36,11 @@ export default async function Reader({ params }) {
             return false;
         }
 
-        const rentalLength = rows[0].rental_length;
+        const months = rows[0].rental_length;
         /** @type {Date} */
         let created = rows[0].created;
         const now = new Date();
 
-        let months = parseInt(rentalLength);
         if (isNaN(months)) {
             return false;
         }

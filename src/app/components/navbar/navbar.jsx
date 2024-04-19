@@ -7,13 +7,15 @@ import styles from "./navbar.module.scss";
 import logo from "@public/assets/book.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
-const nav = [
+const navElements = [
+    { name: "Dashboard", href: "/dashboard" },
     { name: "Store", href: "/store" },
     { name: "About Us", href: "/about" },
-    { name: "Log In", href: "/login" }
+    { name: "Log In", href: "/login" },
+    { name: "Account", href: "/account" }
 ];
 
-export default function NavBar() {
+export default function NavBar({ sessionExists }) {
     const [showClose, setShowClose] = useState(false);
 
     function toggleMenu() {
@@ -21,6 +23,18 @@ export default function NavBar() {
     }
 
     const pathname = usePathname();
+
+    let filteredNavElements = navElements;
+
+    if (sessionExists) {
+        filteredNavElements = filteredNavElements.filter(
+            (link) => link.href != "/login"
+        );
+    } else {
+        filteredNavElements = filteredNavElements.filter(
+            (link) => link.href != "/dashboard" && link.href != "/account"
+        );
+    }
 
     return (
         <nav>
@@ -55,7 +69,7 @@ export default function NavBar() {
                         </a>
                         <div className="hidden items-center sm:ml-6 sm:flex">
                             <div className="flex space-x-4">
-                                {nav.map((item) => {
+                                {filteredNavElements.map((item) => {
                                     let current = item.href == pathname;
                                     return (
                                         <a
@@ -82,7 +96,7 @@ export default function NavBar() {
             {showClose ? (
                 <div className="relative z-[999] sm:hidden">
                     <div className="absolute flex w-full flex-col bg-background-light px-2 py-3 dark:bg-background-dark">
-                        {nav.map((item) => {
+                        {filteredNavElements.map((item) => {
                             let current = item.href == pathname;
                             return (
                                 <a
