@@ -39,12 +39,12 @@ const Top = () => {
                         </p>
 
                         <div className="flex gap-4 pt-4">
-                            <button className={styles["explore-btn"]}>
+                            {/* <button className={styles["explore-btn"]}>
                                 Top Sellers
-                            </button>
-                            <button className={styles["explore-btn"]}>
+                            </button> */}
+                            <a className={styles["explore-btn"]} href="/store">
                                 Browse All
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -52,7 +52,7 @@ const Top = () => {
                 </div>
 
                 <div className="flex basis-1/2 items-center">
-                    <div id={styles["main"]}>
+                    {/* <div id={styles["main"]}>
                         <div id={styles["pick-up"]}>
                             <h2>Pick up where you left off...</h2>
 
@@ -72,7 +72,7 @@ const Top = () => {
 
                         <Image src={img2} alt="Image Name" />
 
-                        {/*<div className="sideBarCard">
+                        <div className="sideBarCard">
                             <BsQuestionCircle className='icon'/>
                             <div className="cardContent">
                                 <div className="circle1"></div>
@@ -84,8 +84,8 @@ const Top = () => {
                                 <button className='btn'> Go to help center </button>
                             </div>
                 
-                        </div>*/}
-                    </div>
+                        </div>
+                    </div> */}
                 </div>
             </div>
         </div>

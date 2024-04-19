@@ -9,8 +9,9 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 const navElements = [
     { name: "Dashboard", href: "/dashboard" },
+    { name: "Library", href: "/library" },
     { name: "Store", href: "/store" },
-    { name: "About Us", href: "/about" },
+    { name: "About", href: "/about" },
     { name: "Log In", href: "/login" },
     { name: "Account", href: "/account" }
 ];
@@ -32,7 +33,10 @@ export default function NavBar({ sessionExists }) {
         );
     } else {
         filteredNavElements = filteredNavElements.filter(
-            (link) => link.href != "/dashboard" && link.href != "/account"
+            (link) =>
+                link.href != "/dashboard" &&
+                link.href != "/account" &&
+                link.href != "/library"
         );
     }
 
