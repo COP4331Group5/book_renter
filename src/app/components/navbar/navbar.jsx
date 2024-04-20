@@ -11,7 +11,6 @@ const navElements = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Library", href: "/library" },
     { name: "Store", href: "/store" },
-    { name: "About", href: "/about" },
     { name: "Log In", href: "/login" },
     { name: "Account", href: "/account" }
 ];
