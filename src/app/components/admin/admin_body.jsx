@@ -9,13 +9,16 @@ const AdminBody = () => {
     let titleFieldRef = useRef();
     /** @type {React.MutableRefObject<HTMLInputElement>} */
     let authorFieldRef = useRef();
+    /** @type {React.MutableRefObject<HTMLInputElement>} */
+    let genreFieldRef = useRef();
 
     const handleSubmit = () => {
         let file = fileFieldRef.current.files[0];
         let title = titleFieldRef.current.value;
         let author = authorFieldRef.current.value;
+        let genre = genreFieldRef.current.value;
 
-        if (!file || !title || !author) {
+        if (!file || !title || !author || !genre) {
             window.alert("Please fill out the fields");
             return;
         }
@@ -25,6 +28,7 @@ const AdminBody = () => {
         formData.set("filename", file.name.split(".")[0]);
         formData.set("title", title);
         formData.set("author", author);
+        formData.set("genre", genre);
 
         fetch("/api/v1/store/publish", {
             method: "POST",
@@ -78,6 +82,15 @@ const AdminBody = () => {
                     <input
                         className="text-black"
                         ref={authorFieldRef}
+                        type="text"
+                        required
+                    />
+                </li>
+                <li>
+                    <h2>Book Genre (comma separated)</h2>
+                    <input
+                        className="text-black"
+                        ref={genreFieldRef}
                         type="text"
                         required
                     />
